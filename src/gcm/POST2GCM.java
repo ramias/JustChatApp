@@ -15,7 +15,6 @@ public class POST2GCM {
 	public static void post(String apiKey, Content content){
 		
 		try {
-			
 		// 1. URL
 		URL url = new URL("https://android.googleapis.com/gcm/send");
 					
