@@ -9,14 +9,23 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnGetRegId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get RegId"/>
 
     <EditText
-        android:id="@+id/etRegId"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_nickname"
+        android:layout_marginTop="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="false"
+        android:hint="Nickname" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:id="@+id/bt_signin"
+        android:layout_below="@+id/et_nickname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="114dp" />
 </RelativeLayout>
