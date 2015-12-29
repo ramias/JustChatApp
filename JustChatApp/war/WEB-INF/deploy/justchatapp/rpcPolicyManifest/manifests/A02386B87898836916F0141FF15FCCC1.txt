@@ -1,0 +1,2 @@
+serviceClass: com.justchatapp.client.GreetingService
+path: 3919C28D37B3041959B7929385F9FEC8.gwt.rpc

@@ -1,0 +1,3 @@
+# Module justchatapp
+# RPC service class, partial path of RPC policy file
+com.justchatapp.client.GreetingService, 3919C28D37B3041959B7929385F9FEC8.gwt.rpc
