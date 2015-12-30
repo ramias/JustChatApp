@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ChatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
