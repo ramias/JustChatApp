@@ -20,13 +20,13 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        animContainer = (ImageView) findViewById(R.id.imageview_animation_list_filling);
+        //animContainer = (ImageView) findViewById(R.id.imageview_animation_list_filling);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        startAnimation();
+       // startAnimation();
 
         Handler nHandler = new Handler();
         nHandler.postDelayed(new Runnable() {
@@ -35,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
+                           // animContainer=null;
                             //// TODO: 2015-12-30 if registred skip this step
                             Intent i = new Intent(SplashActivity.this, RegisterActivity.class);
                             startActivity(i);
