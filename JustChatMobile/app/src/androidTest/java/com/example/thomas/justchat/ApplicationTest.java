@@ -1,4 +1,4 @@
-package com.justchatapp;
+package com.example.thomas.justchat;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
