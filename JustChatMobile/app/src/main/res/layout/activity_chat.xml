@@ -20,28 +20,64 @@
             android:layout_height="wrap_content"
             android:textColor="@color/txtColor"
             android:id="@+id/txtChatWith"
-            android:text="in chat with" />
+            android:text="@string/inChatWith"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAlignment="center" />
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/sv_chatHistory"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
 
         <EditText
             android:id="@+id/edt_input"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:textColor="@color/txtColor"
             android:textAlignment="textStart"
             android:gravity="bottom|start"
-            android:hint="enter message"
+            android:hint="@string/enterMsgHint"
             android:textColorHint="@color/txtColor"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="42dp" />
+            android:layout_marginBottom="10dp"
+            android:maxLength="100"
+            android:scrollIndicators="right" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btnSend"
+                android:id="@+id/btnSend"
+                android:background="@color/btnColor"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btnClear"
+                android:id="@+id/btnClear"
+                android:background="@color/btnColor"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

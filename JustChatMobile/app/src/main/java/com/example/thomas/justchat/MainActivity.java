@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("nn", "Name: " + name);
             txtWelcome.setText("Welcome " + name);
         }
-
-
-
     }
 
     private class MemberListListener implements AdapterView.OnItemClickListener{
@@ -55,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getBaseContext(), ChatActivity.class);
             i.putExtra("item", adapter.getItem(position));
             startActivity(i);
-
         }
 
         public void onNothingSelected(AdapterView<?> parent) {

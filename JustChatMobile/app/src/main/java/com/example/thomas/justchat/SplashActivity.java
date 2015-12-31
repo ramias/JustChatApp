@@ -20,28 +20,28 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        //animContainer = (ImageView) findViewById(R.id.imageview_animation_list_filling);
+        animContainer = (ImageView) findViewById(R.id.imageview_animation_list_filling);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-       // startAnimation();
+        startAnimation();
 
-        Handler nHandler = new Handler();
-        nHandler.postDelayed(new Runnable() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                           // animContainer=null;
                             //// TODO: 2015-12-30 if registred skip this step
                             Intent i = new Intent(SplashActivity.this, RegisterActivity.class);
                             startActivity(i);
-                            finish();
                         } catch (ActivityNotFoundException e) {
                             Log.i("nn", "ERROR: " + e.getMessage());
+                        }finally {
+                            finish();
                         }
                     }
                 });
@@ -49,6 +49,19 @@ public class SplashActivity extends AppCompatActivity {
         }, 1500);
 
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        AnimationDrawable anim = (AnimationDrawable) animContainer.getBackground();
+        int count = anim.getNumberOfFrames();
+        for(int i=0;i<count;i++){
+            anim.getFrame(i).setCallback(null);
+        }
+        animContainer.getBackground().setCallback(null);
+        animContainer = null;
     }
 
     private void startAnimation() {

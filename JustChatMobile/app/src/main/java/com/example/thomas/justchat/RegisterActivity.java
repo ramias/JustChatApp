@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity{
 
     private ImageView gcmImage;
-    private Button btnGCMRegister, btnAppSend;
+    private Button btnGCMRegister, btnAppSend, btnQuit;
     private GoogleCloudMessaging gcm;
     private String regId;
     private final String PROJECT_NUMBER = "370652955246";
@@ -44,10 +44,11 @@ public class RegisterActivity extends Activity{
         // Buttons
         btnGCMRegister = (Button) findViewById(R.id.btnRegGcmServer);
         btnAppSend = (Button) findViewById(R.id.btnRegAppServer);
-
+        btnQuit = (Button) findViewById(R.id.btnQuit);
 
         btnGCMRegister.setOnClickListener(new OnRegGCMBtnClickListener());
         btnAppSend.setOnClickListener(new OnAppSendBtnClickListener());
+        btnQuit.setOnClickListener(new OnQuitdBtnClickListener());
 
         btnAppSend.setEnabled(false);
     }
@@ -80,17 +81,18 @@ public class RegisterActivity extends Activity{
                 i.putExtra("username",edtUsername.getText().toString());
                 startActivity(i);
                 finish();
+                return;
             }
-           /* } else {
-                Intent i = new Intent(getApplicationContext(),
-                        MainActivity.class);
-                i.putExtra("regId", regId);
-                Log.d("RegisterActivity",
-                        "onClick of Share: Before starting main activity.");
-                startActivity(i);
-                finish();
-                Log.d("RegisterActivity", "onClick of Share: After finish.");
-            }*/
+        }
+    }
+
+    // Listener for quit button.
+    private class OnQuitdBtnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View arg0) {
+            finish();
+            System.exit(0); // nått fel här.. vill inte avsluta
+            return;
         }
     }
 

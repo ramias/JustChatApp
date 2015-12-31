@@ -15,7 +15,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/txtColor"
         android:id="@+id/txtViewWelcome"
-        android:text="welcome" />
+        android:text="welcome"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAlignment="center" />
 
     <ListView
         android:id="@+id/lv_members"
