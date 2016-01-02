@@ -3,8 +3,7 @@
     <string name="inChatWith">in chat with</string>
     <string name="enterMsgHint">Enter message</string>
     <string name="specifyUsername">Specify username</string>
-    <string name="btnRegGCM">Register with Google GCM Server</string>
-    <string name="btnSendReg">Send Reg-ID to App Server</string>
+    <string name="btnSendReg">Login</string>
     <string name="btnSend">Send Message</string>
     <string name="btnClear">Clear</string>
     <string name="btnQuit">Quit</string>

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thomas.justchat.SplashActivity"
+    tools:context="com.example.thomas.justchat.controller.SplashActivity"
     android:background="@color/backgroundColor">
 
     <ImageView
@@ -24,17 +24,21 @@
         android:layout_height="match_parent"
         android:layout_marginTop="250dp">
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
+        <EditText
+            android:id="@+id/edtUsername"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btnRegGCM"
-            android:id="@+id/btnRegGcmServer"
-            android:background="@color/btnColor"
-            android:layout_alignBaseline="@+id/edtUsername"
-            android:layout_alignBottom="@+id/edtUsername"
+            android:textColor="@color/txtColor"
+            android:textAlignment="textStart"
+            android:gravity="bottom|start"
+            android:hint="@string/specifyUsername"
+            android:textColorHint="@color/txtColor"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="42dp"
+            android:maxLines="1"
+            android:inputType="textPersonName" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -60,19 +64,5 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/edtUsername"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textColor="@color/txtColor"
-        android:textAlignment="textStart"
-        android:gravity="bottom|start"
-        android:hint="@string/specifyUsername"
-        android:textColorHint="@color/txtColor"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="42dp" />
 
 </RelativeLayout>

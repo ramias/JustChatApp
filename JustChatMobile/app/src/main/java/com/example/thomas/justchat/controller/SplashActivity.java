@@ -1,4 +1,4 @@
-package com.example.thomas.justchat;
+package com.example.thomas.justchat.controller;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.widget.ImageView;
+
+import com.example.thomas.justchat.R;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -21,10 +22,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         animContainer = (ImageView) findViewById(R.id.imageview_animation_list_filling);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
 
         startAnimation();
 
@@ -47,10 +44,7 @@ public class SplashActivity extends AppCompatActivity {
                 });
             }
         }, 1500);
-
-        return true;
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
