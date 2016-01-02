@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import com.example.thomas.justchat.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -76,7 +79,6 @@ public class ChatActivity  extends AppCompatActivity {
                 vib.vibrate(100);
                 Toast.makeText(getApplicationContext(), "Enter a message!", Toast.LENGTH_LONG).show();
             }else {
-                // Call SendMsg() -->
                 newMessageToListView(username,edtInput.getText().toString());
                 edtInput.setText("");
             }
@@ -84,7 +86,14 @@ public class ChatActivity  extends AppCompatActivity {
     }
 
     private void newMessageToListView(String user, String msg) {
-        messageList.add(user+": "+msg);
+        String time = getTime();
+        messageList.add(time+" - "+user+": "+msg);
         adapter.notifyDataSetChanged();
+    }
+
+    private String getTime() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(cal.getTime());
     }
 }
