@@ -36,12 +36,13 @@ public class GcmMessageHandler extends IntentService {
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
+        WakeUp.acquire(getApplicationContext());
         Vibrator vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         vib.vibrate(200);
         mes = extras.getString("title");
         showToast();
         Log.i("GCM", "Received : (" +messageType+")  "+extras.getString("title"));
-
+        WakeUp.release();
         GcmBroadcastReceiver.completeWakefulIntent(intent);
 
     }
