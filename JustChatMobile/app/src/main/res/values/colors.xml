@@ -6,4 +6,5 @@
     <color name="backgroundColor">#2a2a2a</color>
     <color name="btnColor">#33b5e5</color>
     <color name="txtColor">#33b5e5</color>
+    <color name="messageColor">#33b5e5</color>
 </resources>

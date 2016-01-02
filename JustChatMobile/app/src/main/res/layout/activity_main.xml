@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thomas.justchat.controller.SplashActivity"
+    tools:context="com.example.thomas.justchat.justchat.controller.SplashActivity"
     android:background="#2a2a2a">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/txtColor"
         android:id="@+id/txtViewWelcome"
-        android:text="welcome"
+        android:text="Welcome"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textAlignment="center" />
 
@@ -28,5 +28,17 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="85dp"
         android:background="#4c4c4c" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Friend"
+        android:id="@+id/btn_addFriend"
+        android:layout_below="@+id/txtViewWelcome"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:background="#33b5e5"
+        android:clickable="false" />
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package model;
+package com.example.thomas.justchat.justchat.model;
 
 /**
  * Created by Thomas on 2015-12-29.

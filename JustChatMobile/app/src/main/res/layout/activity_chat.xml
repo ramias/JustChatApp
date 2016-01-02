@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thomas.justchat.controller.SplashActivity"
+    tools:context="com.example.thomas.justchat.justchat.controller.SplashActivity"
     android:background="#2a2a2a">
 
     <LinearLayout
@@ -28,9 +28,11 @@
             android:id="@+id/lv_chatHistory"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginTop="85dp"
             android:layout_weight="2"
-            android:background="#4c4c4c" />
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll"
+            android:background="#4c4c4c"
+            android:layout_marginTop="20dp" />
 
 
         <EditText
@@ -47,25 +49,13 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="10dp"
             android:maxLength="100"
-            android:scrollIndicators="right" />
+            android:scrollIndicators="right"
+            android:inputType="text" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btnSend"
-                android:id="@+id/btnSend"
-                android:background="@color/btnColor"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -77,6 +67,19 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btnSend"
+                android:id="@+id/btnSend"
+                android:background="@color/btnColor"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp" />
         </LinearLayout>

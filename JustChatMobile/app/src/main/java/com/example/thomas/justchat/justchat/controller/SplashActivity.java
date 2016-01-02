@@ -1,4 +1,4 @@
-package com.example.thomas.justchat.controller;
+package com.example.thomas.justchat.justchat.controller;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;

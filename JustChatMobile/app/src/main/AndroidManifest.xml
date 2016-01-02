@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true">
-        <activity android:name=".controller.SplashActivity"
+        <activity android:name=".justchat.controller.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,33 +27,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.MainActivity">
+        <activity android:name=".justchat.controller.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".controller.ChatActivity">
+        <activity android:name=".justchat.controller.ChatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".controller.RegisterActivity">
+        <activity android:name=".justchat.controller.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
         <receiver
-            android:name="model.GcmBroadcastReceiver"
+            android:name=".justchat.model.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.example.thomas.justchat.gcm" />
             </intent-filter>
         </receiver>
-        <service android:name="model.GcmMessageHandler" />
+        <service android:name=".justchat.model.GcmMessageHandler" />
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>

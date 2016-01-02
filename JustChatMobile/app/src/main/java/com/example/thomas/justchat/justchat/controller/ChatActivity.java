@@ -1,4 +1,4 @@
-package com.example.thomas.justchat.controller;
+package com.example.thomas.justchat.justchat.controller;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -47,7 +47,7 @@ public class ChatActivity  extends AppCompatActivity {
         }
 
         messageList = new ArrayList<>();
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,messageList);
+        adapter = new ArrayAdapter(this, R.layout.textview_message,messageList);
         listView = (ListView) findViewById(R.id.lv_chatHistory);
         edtInput = (EditText) findViewById(R.id.edt_input);
         btnSend = (Button) findViewById(R.id.btnSend);
@@ -76,15 +76,15 @@ public class ChatActivity  extends AppCompatActivity {
                 vib.vibrate(100);
                 Toast.makeText(getApplicationContext(), "Enter a message!", Toast.LENGTH_LONG).show();
             }else {
-
                 // Call SendMsg() -->
-                newMessageToListView(edtInput.getText().toString());
+                newMessageToListView(username,edtInput.getText().toString());
                 edtInput.setText("");
             }
         }
     }
 
-    private void newMessageToListView(String msg) {
-        messageList.add(username+"> "+msg);
+    private void newMessageToListView(String user, String msg) {
+        messageList.add(user+": "+msg);
+        adapter.notifyDataSetChanged();
     }
 }
