@@ -6,12 +6,16 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thomas.justchat.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -23,6 +27,10 @@ public class ChatActivity  extends AppCompatActivity {
     private TextView txtChatWith;
     private Button btnSend, btnClear;
     private EditText edtInput;
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> messageList;
+    private String friendName, username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +39,21 @@ public class ChatActivity  extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String name = extras.getString("item");
-            Log.i("nn", "Name: " + name);
+            friendName = extras.getString("item");
+            username = extras.getString("username");
+            Log.i("nn", "Name: " + friendName);
             txtChatWith = (TextView) findViewById(R.id.txtChatWith);
-            txtChatWith.setText("In chat with " + name);
+            txtChatWith.setText("In chat with " + friendName);
         }
 
+        messageList = new ArrayList<>();
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,messageList);
+        listView = (ListView) findViewById(R.id.lv_chatHistory);
         edtInput = (EditText) findViewById(R.id.edt_input);
         btnSend = (Button) findViewById(R.id.btnSend);
         btnClear = (Button) findViewById(R.id.btnClear);
 
+        listView.setAdapter(adapter);
         btnSend.setOnClickListener(new OnSendBtnClickListener());
         btnClear.setOnClickListener(new OnClearBtnClickListener());
 
@@ -65,9 +78,13 @@ public class ChatActivity  extends AppCompatActivity {
             }else {
 
                 // Call SendMsg() -->
-
+                newMessageToListView(edtInput.getText().toString());
                 edtInput.setText("");
             }
         }
+    }
+
+    private void newMessageToListView(String msg) {
+        messageList.add(username+"> "+msg);
     }
 }

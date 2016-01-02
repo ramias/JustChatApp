@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView memberList;
     private ArrayList<String> memberNameList;
     private ArrayAdapter<String> adapter;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String name = extras.getString("username");
-            Log.i("nn", "Name: " + name);
-            txtWelcome.setText("Welcome " + name);
+            username = extras.getString("username");
+            Log.i("nn", "Name: " + username);
+            txtWelcome.setText("Welcome " + username);
         }
     }
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent i = new Intent(getBaseContext(), ChatActivity.class);
             i.putExtra("item", adapter.getItem(position));
+            i.putExtra("username", username);
             startActivity(i);
         }
 
