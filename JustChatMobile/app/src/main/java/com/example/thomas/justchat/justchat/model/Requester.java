@@ -34,17 +34,16 @@ public class Requester {
                 return response;
             } else if (method.equals("GET")) {
                 Log.i("rest", "GET EXECUTING");
-                String jsonResult = "";
-                InputStream inputStream;
+                String jsonResult = null;
+                InputStream inputStream = null;
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(uri);
                 HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
+                if (httpResponse.getEntity() != null)
+                    inputStream = httpResponse.getEntity().getContent();
                 if (inputStream != null)
                     jsonResult = convertInputStreamToString(inputStream);
-                else
-                    jsonResult = "Did not work!";
-                Log.i("rest","result: "+ jsonResult);
+                Log.i("rest", "result: " + jsonResult);
                 return jsonResult;
             }
         } catch (UnsupportedEncodingException e) {

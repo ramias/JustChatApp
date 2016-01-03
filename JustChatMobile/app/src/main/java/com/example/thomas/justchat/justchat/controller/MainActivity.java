@@ -67,9 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(ArrayList result) {
-                Log.i("friend","resultset: "+ result);
-                memberNameList.addAll(result);
-                adapter.notifyDataSetChanged();
+                Log.i("friend", "resultset: " + result);
+                if (result != null) {
+                    memberNameList.addAll(result);
+                    adapter.notifyDataSetChanged();
+                }
             }
         }.execute(null, null, null);
     }

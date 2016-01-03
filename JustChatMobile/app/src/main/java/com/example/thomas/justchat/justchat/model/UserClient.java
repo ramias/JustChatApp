@@ -34,8 +34,10 @@ public class UserClient {
 
     public static ArrayList<String> getFriendList(String username) {
         String jsonFriends = Requester.makeRequest("http://130.237.84.211:8080/justchat/rest/friend/friendlist?user=" + username, null, "GET");
-        Gson gson = new Gson();
-        return gson.fromJson(jsonFriends, ArrayList.class);
+        if (jsonFriends != null) {
+            Gson gson = new Gson();
+            return gson.fromJson(jsonFriends, ArrayList.class);
+        } else return null;
     }
 
 }
