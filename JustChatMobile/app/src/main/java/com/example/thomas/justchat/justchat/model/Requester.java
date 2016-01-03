@@ -29,7 +29,7 @@ public class Requester {
                 HttpPost httpPost = new HttpPost(uri);
                 httpPost.setEntity(new StringEntity(json));
                 httpPost.setHeader("Content-type", "application/json");
-                String response = String.valueOf((httpClient.execute(httpPost)).getStatusLine());
+                String response = convertInputStreamToString((httpClient.execute(httpPost)).getEntity().getContent());
                 Log.i("rest", "Post response: " + response);
                 return response;
             } else if (method.equals("GET")) {
@@ -40,11 +40,11 @@ public class Requester {
                 HttpGet httpGet = new HttpGet(uri);
                 HttpResponse httpResponse = httpclient.execute(httpGet);
                 inputStream = httpResponse.getEntity().getContent();
-                Log.i("inputstream", inputStream.toString());
                 if (inputStream != null)
                     jsonResult = convertInputStreamToString(inputStream);
                 else
                     jsonResult = "Did not work!";
+                Log.i("rest","result: "+ jsonResult);
                 return jsonResult;
             }
         } catch (UnsupportedEncodingException e) {

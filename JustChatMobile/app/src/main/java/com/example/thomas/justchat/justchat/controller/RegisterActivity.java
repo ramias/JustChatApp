@@ -92,7 +92,7 @@ public class RegisterActivity extends Activity {
                     }
                     regId = gcm.register(PROJECT_NUMBER);
                     User user = new User(username, regId, "0000000000");
-                    if (!UserClient.register(user).equals("HTTP/1.1 200 OK")) {
+                    if (!UserClient.register(user).equals("200")) {
                         return null;
                     }
 

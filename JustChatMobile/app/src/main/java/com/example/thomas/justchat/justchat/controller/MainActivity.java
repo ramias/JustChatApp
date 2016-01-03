@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thomas.justchat.R;
+import com.example.thomas.justchat.justchat.model.UserClient;
 
 import java.util.ArrayList;
 
@@ -41,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         addFriend = (Button) findViewById(R.id.btn_addFriend);
         addFriend.setOnClickListener(new OnAddFriendListener());
         memberNameList = new ArrayList<>();
-        memberNameList.add("KALLE");
-        memberNameList.add("PELLE");
-        memberNameList.add("PETER");
         adapter = new ArrayAdapter(this, R.layout.textview_friends, memberNameList);
 
         memberList.setAdapter(adapter);
@@ -56,7 +55,23 @@ public class MainActivity extends AppCompatActivity {
             Log.i("nn", "Name: " + username);
             txtWelcome.setText("Welcome " + username);
         }
+        getFriends();
+    }
 
+    private void getFriends() {
+        new AsyncTask<Void, Void, ArrayList>() {
+            @Override
+            protected ArrayList doInBackground(Void... params) {
+                return UserClient.getFriendList(username);
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList result) {
+                Log.i("friend","resultset: "+ result);
+                memberNameList.addAll(result);
+                adapter.notifyDataSetChanged();
+            }
+        }.execute(null, null, null);
     }
 
     // Listener for clear button.
@@ -77,9 +92,28 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("Add",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    //TODO: Add friend webservice
                                     if (userInput.length() > 0) {
                                         Toast.makeText(getApplicationContext(), "Establishing friendship with " + userInput.getText() + "...", Toast.LENGTH_LONG).show();
+                                        new AsyncTask<String, Void, String>() {
+                                            @Override
+                                            protected String doInBackground(String... params) {
+                                                return UserClient.addFriend(username, params[0]);
+                                            }
+
+                                            @Override
+                                            protected void onPostExecute(String result) {
+                                                if (result.equals("true")) {
+                                                    memberNameList.add(userInput.getText().toString());
+                                                    adapter.notifyDataSetChanged();
+                                                    Toast.makeText(getApplicationContext(), "Friendship with " + userInput.getText() + " established!", Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "User: '" + userInput.getText() + "' does not exist", Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }
+                                        }.execute(userInput.getText().toString(), null, null);
+
+
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_LONG).show();
                                     }
@@ -95,11 +129,11 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
 
+
         }
     }
 
     private class MemberListListener implements AdapterView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent i = new Intent(getBaseContext(), ChatActivity.class);
@@ -112,4 +146,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 }
