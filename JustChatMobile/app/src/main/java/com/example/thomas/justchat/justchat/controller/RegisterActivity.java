@@ -15,8 +15,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.thomas.justchat.R;
+import com.example.thomas.justchat.justchat.model.User;
+import com.example.thomas.justchat.justchat.model.UserClient;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 
@@ -31,6 +34,7 @@ public class RegisterActivity extends Activity {
     private String regId;
     private final String PROJECT_NUMBER = "370652955246";
     private EditText edtUsername;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +64,7 @@ public class RegisterActivity extends Activity {
                 Vibrator vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vib.vibrate(100);
             } else {
-                if (TextUtils.isEmpty(regId)) {
-                    getRegId();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Already Registered with GCM Server!",
-                            Toast.LENGTH_LONG).show();
-                }
+                doLogin();
             }
         }
     }
@@ -81,34 +79,65 @@ public class RegisterActivity extends Activity {
         }
     }
 
-    public void getRegId() {
-        new AsyncTask<Void, Void, String>() {
+    public void doLogin() {
+        new AsyncTask<String, Void, String>() {
             @Override
-            protected String doInBackground(Void... params) {
-                String msg = "";
+            protected String doInBackground(String... params) {
+                String username = params[0];
+                Log.i("login", "Username: " + username);
                 try {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+
                     }
                     regId = gcm.register(PROJECT_NUMBER);
-                    msg = "Device registered, registration ID=" + regId;
-                    Log.i("GCM", msg);
+                    User user = new User(username, regId, "0000000000");
+                    if (!UserClient.register(user).equals("HTTP/1.1 200 OK")) {
+                        return null;
+                    }
 
                 } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
+                    Log.i("error", "Error :" + ex.getMessage());
 
                 }
-                return msg;
+                return regId;
             }
 
             @Override
-            protected void onPostExecute(String msg) {
-                Intent i = new Intent(getBaseContext(), MainActivity.class);
-                i.putExtra("username", edtUsername.getText().toString());
-                startActivity(i);
-                finish();
-                return;
+            protected void onPostExecute(String regid) {
+                if (regid != null) {
+                    String filename = "justStore.txt";
+                    String username = edtUsername.getText().toString();
+                    FileOutputStream outputStream = null;
+
+                    try {
+                        outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                        outputStream.write(username.getBytes());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (outputStream != null)
+                                outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    Intent i = new Intent(getBaseContext(), MainActivity.class);
+                    i.putExtra("username", edtUsername.getText().toString());
+                    startActivity(i);
+                    finish();
+                    return;
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Username is in use",
+                            Toast.LENGTH_LONG).show();
+
+                }
             }
-        }.execute(null, null, null);
+        }.execute(edtUsername.getText().toString(), null, null);
+
     }
 }

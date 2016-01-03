@@ -11,6 +11,11 @@ import android.widget.ImageView;
 
 import com.example.thomas.justchat.R;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -20,7 +25,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         animContainer = (ImageView) findViewById(R.id.imageview_animation_list_filling);
 
         startAnimation();
@@ -29,29 +33,62 @@ public class SplashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            //// TODO: 2015-12-30 if registred skip this step
-                            Intent i = new Intent(SplashActivity.this, RegisterActivity.class);
-                            startActivity(i);
-                        } catch (ActivityNotFoundException e) {
-                            Log.i("nn", "ERROR: " + e.getMessage());
-                        }finally {
-                            finish();
-                        }
-                    }
-                });
+                                  @Override
+                                  public void run() {
+                                      try {
+                                          String username = null;
+
+                                          FileInputStream inputStream = null;
+
+                                          try {
+                                              FileInputStream fis = openFileInput("justStore.txt");
+                                              InputStreamReader isr = new InputStreamReader(fis);
+                                              BufferedReader bufferedReader = new BufferedReader(isr);
+                                              String line;
+                                              while ((line = bufferedReader.readLine()) != null) {
+                                                  username = line;
+                                              }
+                                          } catch (Exception e) {
+                                              e.printStackTrace();
+                                          } finally {
+                                              try {
+                                                  if (inputStream != null)
+                                                      inputStream.close();
+                                              } catch (IOException e) {
+                                                  e.printStackTrace();
+                                              }
+                                          }
+
+                                          Intent i;
+                                          if (username == null)
+                                              i = new Intent(SplashActivity.this, RegisterActivity.class);
+                                          else {
+                                              i = new Intent(SplashActivity.this, MainActivity.class);
+                                              i.putExtra("username", username);
+                                          }
+                                          startActivity(i);
+                                      } catch (ActivityNotFoundException e) {
+                                          Log.i("nn", "ERROR: " + e.getMessage());
+                                      } finally {
+                                          finish();
+                                      }
+                                  }
+                              }
+
+                );
             }
-        }, 2440);
+        }
+
+                , 2440);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
         AnimationDrawable anim = (AnimationDrawable) animContainer.getBackground();
         int count = anim.getNumberOfFrames();
-        for(int i=0;i<count;i++){
+        for (int i = 0; i < count; i++) {
             anim.getFrame(i).setCallback(null);
         }
         animContainer.getBackground().setCallback(null);
