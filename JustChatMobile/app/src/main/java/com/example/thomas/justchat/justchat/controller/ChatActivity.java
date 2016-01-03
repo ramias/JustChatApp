@@ -14,17 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thomas.justchat.R;
+import com.example.thomas.justchat.justchat.model.Message;
+import com.example.thomas.justchat.justchat.model.MessageClient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
  * Created by Thomas on 2015-12-30.
  */
-public class ChatActivity  extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
 
     private TextView txtChatWith;
@@ -33,6 +34,7 @@ public class ChatActivity  extends AppCompatActivity {
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> messageList;
+    private ArrayList<Message> messageObjList;
     private String friendName, username;
 
     @Override
@@ -50,7 +52,8 @@ public class ChatActivity  extends AppCompatActivity {
         }
 
         messageList = new ArrayList<>();
-        adapter = new ArrayAdapter(this, R.layout.textview_message,messageList);
+        messageObjList = new ArrayList<>();
+        adapter = new ArrayAdapter(this, R.layout.textview_message, messageList);
         listView = (ListView) findViewById(R.id.lv_chatHistory);
         edtInput = (EditText) findViewById(R.id.edt_input);
         btnSend = (Button) findViewById(R.id.btnSend);
@@ -59,6 +62,13 @@ public class ChatActivity  extends AppCompatActivity {
         listView.setAdapter(adapter);
         btnSend.setOnClickListener(new OnSendBtnClickListener());
         btnClear.setOnClickListener(new OnClearBtnClickListener());
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MessageClient.getChatMessages(username, friendName, messageList);
 
     }
 
@@ -74,20 +84,26 @@ public class ChatActivity  extends AppCompatActivity {
     private class OnSendBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
-            if(edtInput.getText().toString().equals("")){
+            if (edtInput.getText().toString().equals("")) {
                 Vibrator vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vib.vibrate(100);
                 Toast.makeText(getApplicationContext(), "Enter a message!", Toast.LENGTH_LONG).show();
-            }else {
-                newMessageToListView(username,edtInput.getText().toString());
+            } else {
+                Message msg = new Message();
+                msg.setSender(username);
+                msg.setReceiver(friendName);
+                msg.setBody(edtInput.getText().toString());
+                msg.setTimestamp(getTime());
+                Log.i("rest", "Come here?");
+                MessageClient.sendMessage(msg);
+                newMessageToListView(msg);
                 edtInput.setText("");
             }
         }
     }
 
-    private void newMessageToListView(String user, String msg) {
-        String time = getTime();
-        messageList.add(time+" - "+user+": "+msg);
+    private void newMessageToListView(Message msg) {
+        messageList.add(msg.getTimestamp() + " - " + msg.getSender() + ": " + msg.getBody());
         adapter.notifyDataSetChanged();
     }
 

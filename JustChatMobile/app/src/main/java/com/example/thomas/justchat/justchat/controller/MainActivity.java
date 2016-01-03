@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> memberNameList;
     private ArrayAdapter<String> adapter;
     private String username;
-    final Context context = this;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("nn", "Name: " + username);
             txtWelcome.setText("Welcome " + username);
         }
+
     }
 
     // Listener for clear button.
