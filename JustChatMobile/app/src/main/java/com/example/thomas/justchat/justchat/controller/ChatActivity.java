@@ -1,8 +1,12 @@
 package com.example.thomas.justchat.justchat.controller;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +21,7 @@ import com.example.thomas.justchat.R;
 import com.example.thomas.justchat.justchat.model.Message;
 import com.example.thomas.justchat.justchat.model.MessageClient;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,13 +34,15 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private TextView txtChatWith;
-    private Button btnSend, btnClear;
+    private Button btnSend, btnClear, btnCam;
     private EditText edtInput;
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> messageList;
     private ArrayList<Message> messageObjList;
     private String friendName, username;
+    private File file;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,15 @@ public class ChatActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new OnSendBtnClickListener());
         btnClear.setOnClickListener(new OnClearBtnClickListener());
 
+        btnCam = (Button) findViewById(R.id.btnCam);
+        btnCam.setOnClickListener(new OnCamTestBtnClickListener());
+        file = new File(Environment.getExternalStorageDirectory(),"test_pic.jpg");
+        Uri outputFileUri = Uri.fromFile(file);
+        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
     }
+
 
     @Override
     protected void onStart() {
@@ -99,6 +114,14 @@ public class ChatActivity extends AppCompatActivity {
                 newMessageToListView(msg);
                 edtInput.setText("");
             }
+        }
+    }
+
+    // Listener for Cam button.
+    private class OnCamTestBtnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View arg0) {
+            startActivityForResult(intent, 1);
         }
     }
 
