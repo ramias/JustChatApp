@@ -133,6 +133,7 @@ public class ChatActivity extends AppCompatActivity {
                 msg.setSender(username);
                 msg.setReceiver(friendName);
                 msg.setBody(edtInput.getText().toString());
+                msg.setTimestamp(String.valueOf(Calendar.getInstance().getTimeInMillis()));
                 new AsyncTask<Message, Void, Message>() {
                     @Override
                     protected Message doInBackground(Message... params) {
@@ -147,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
                     protected void onPostExecute(Message result) {
                         Log.i("message", "resultset: " + result);
                         if (result != null) {
-                            messageList.add(getTime() + " - " + result.getSender() + ": " + result.getBody());
+                            messageList.add(formatTime(Calendar.getInstance().getTimeInMillis()) + " - " + result.getSender() + ": " + result.getBody());
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -168,9 +169,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private String getTime() {
-        Calendar cal = Calendar.getInstance();
+    private String formatTime(long time) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(cal.getTime());
+        return sdf.format(time);
     }
 }

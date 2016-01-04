@@ -23,6 +23,7 @@ public class MessageClient {
         msgMap.put("sender", message.getSender());
         msgMap.put("receiver", message.getReceiver());
         msgMap.put("body", message.getBody());
+        msgMap.put("timestamp", message.getTimestamp());
         Gson gson = new Gson();
         String json = gson.toJson(msgMap);
         return Requester.makeRequest("http://130.237.84.211:8080/justchat/rest/message/sendmessage", json, "POST");
