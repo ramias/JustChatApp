@@ -17,11 +17,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.thomas.justchat.R;
 import com.example.thomas.justchat.justchat.model.Message;
 import com.example.thomas.justchat.justchat.model.MessageClient;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,9 +52,10 @@ public class ChatActivity extends AppCompatActivity {
 
         if (extras != null) {
 
-            if (extras.getBoolean("isPendingIntent")) {
+            if (extras.getString("isPendingIntent").equals("true")) {
                 // ChatActivity startades utifrån efter en push notis
                 friendName = extras.getString("sender");
+                username = extras.getString("receiver");
                 Log.i("push", friendName);
             } else {
                 // ChatActivity startades från mainActivity
