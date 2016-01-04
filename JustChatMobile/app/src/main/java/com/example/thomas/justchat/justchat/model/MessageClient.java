@@ -43,7 +43,7 @@ public class MessageClient {
             Message m = new Message();
             m.setSender((String) h.get("sender"));
             m.setBody((String) h.get("body"));
-            m.setTimestamp(dateFormater((String) h.get("timesamp")));
+            m.setTimestamp(dateFormater((String) h.get("timestamp")));
             messageList.add(m);
         }
         return messageList;
@@ -60,4 +60,6 @@ public class MessageClient {
         }
         return sdf.format(d);
     }
+
+
 }

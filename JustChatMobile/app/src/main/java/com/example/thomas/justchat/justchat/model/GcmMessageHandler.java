@@ -51,7 +51,6 @@ public class GcmMessageHandler extends IntentService {
         Log.i("GCM", "Received : (" +messageType+")  "+extras.getString("title"));
         WakeUp.release();
         GcmBroadcastReceiver.completeWakefulIntent(intent);
-
     }
 
     private void notifyNewMessage() {
