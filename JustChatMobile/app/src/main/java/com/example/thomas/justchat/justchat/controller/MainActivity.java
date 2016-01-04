@@ -17,10 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.thomas.justchat.R;
 import com.example.thomas.justchat.justchat.model.UserClient;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -141,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getBaseContext(), ChatActivity.class);
             i.putExtra("item", adapter.getItem(position));
             i.putExtra("username", username);
+            i.putExtra("isPendingIntent",false);
             startActivity(i);
         }
 

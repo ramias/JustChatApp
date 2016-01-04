@@ -50,12 +50,22 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
-            friendName = extras.getString("item");
-            username = extras.getString("username");
-            Log.i("nn", "Name: " + friendName);
+
+            if(extras.getBoolean("isPendingIntent")){
+                // ChatActivity startades utifrån efter en push notis
+                friendName = extras.getString("sender");
+                Log.i("push",friendName);
+            }else{
+                // ChatActivity startades från mainActivity
+                friendName = extras.getString("item");
+                username = extras.getString("username");
+            }
+
             txtChatWith = (TextView) findViewById(R.id.txtChatWith);
             txtChatWith.setText("In chat with " + friendName);
+
         }
 
         messageList = new ArrayList<>();
