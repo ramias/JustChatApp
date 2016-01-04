@@ -56,7 +56,7 @@ public class GcmMessageHandler extends IntentService {
     private void notifyNewMessage() {
 
         String ticker = msg;
-        if(msg.length() >= 25){
+        if(msg.length() >= 25 && msg!=null){
             ticker = msg.substring(0,24).concat("...");
         }
 
