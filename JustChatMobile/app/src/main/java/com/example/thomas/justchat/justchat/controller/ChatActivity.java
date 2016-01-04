@@ -3,6 +3,7 @@ package com.example.thomas.justchat.justchat.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
@@ -53,11 +54,11 @@ public class ChatActivity extends AppCompatActivity {
 
         if (extras != null) {
 
-            if(extras.getBoolean("isPendingIntent")){
+            if (extras.getBoolean("isPendingIntent")) {
                 // ChatActivity startades utifrån efter en push notis
                 friendName = extras.getString("sender");
-                Log.i("push",friendName);
-            }else{
+                Log.i("push", friendName);
+            } else {
                 // ChatActivity startades från mainActivity
                 friendName = extras.getString("item");
                 username = extras.getString("username");
@@ -82,20 +83,34 @@ public class ChatActivity extends AppCompatActivity {
 
         btnCam = (Button) findViewById(R.id.btnCam);
         btnCam.setOnClickListener(new OnCamTestBtnClickListener());
-        file = new File(Environment.getExternalStorageDirectory(),"test_pic.jpg");
+        file = new File(Environment.getExternalStorageDirectory(), "test_pic.jpg");
         Uri outputFileUri = Uri.fromFile(file);
         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        new AsyncTask<Void, Void, ArrayList>() {
+            @Override
+            protected ArrayList doInBackground(Void... params) {
+                ArrayList<Message> messages = MessageClient.getChatMessages(username, friendName);
+                ArrayList<String> parsedMessages = new ArrayList<>();
+                if (messages != null) {
+                    for (Message m : messages) {
+                        parsedMessages.add(m.getTimestamp() + " - " + m.getSender() + ": " + m.getBody());
+                    }
+                }
+                return parsedMessages;
+            }
 
+            @Override
+            protected void onPostExecute(ArrayList result) {
+                Log.i("message", "resultset: " + result);
+                if (result != null) {
+                    messageList.addAll(result);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }.execute(null, null, null);
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        MessageClient.getChatMessages(username, friendName, messageList);
-
-    }
 
     // Listener for clear button.
     private class OnClearBtnClickListener implements View.OnClickListener {
@@ -118,10 +133,27 @@ public class ChatActivity extends AppCompatActivity {
                 msg.setSender(username);
                 msg.setReceiver(friendName);
                 msg.setBody(edtInput.getText().toString());
-                msg.setTimestamp(getTime());
-                Log.i("rest", "Come here?");
-                MessageClient.sendMessage(msg);
-                newMessageToListView(msg);
+                new AsyncTask<Message, Void, Message>() {
+                    @Override
+                    protected Message doInBackground(Message... params) {
+                        if (MessageClient.sendMessage(params[0]) != "-1")
+                            return params[0];
+                        else {
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(Message result) {
+                        Log.i("message", "resultset: " + result);
+                        if (result != null) {
+                            messageList.add(getTime() + " - " + result.getSender() + ": " + result.getBody());
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }.execute(msg, null, null);
+
+
                 edtInput.setText("");
             }
         }
@@ -135,10 +167,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    private void newMessageToListView(Message msg) {
-        messageList.add(msg.getTimestamp() + " - " + msg.getSender() + ": " + msg.getBody());
-        adapter.notifyDataSetChanged();
-    }
 
     private String getTime() {
         Calendar cal = Calendar.getInstance();
