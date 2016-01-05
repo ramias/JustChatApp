@@ -1,4 +1,4 @@
-package logic;
+package com.justchatapp.logic;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package logic;
+package com.justchatapp.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,8 @@ import javax.ws.rs.*;
 
 import com.google.gson.Gson;
 
-import database.FriendDB;
-import model.User;
+import com.justchatapp.database.FriendDB;
+import com.justchatapp.model.User;
 
 @Path("/friend")
 public class FriendLogic {
