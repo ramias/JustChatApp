@@ -21,6 +21,8 @@ import com.example.thomas.justchat.R;
 import com.example.thomas.justchat.justchat.controller.ChatActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import static com.google.android.gms.internal.zzir.runOnUiThread;
+
 public class GcmMessageHandler extends IntentService {
 
     private Handler handler;
@@ -52,11 +54,16 @@ public class GcmMessageHandler extends IntentService {
         msg.setReceiver(extras.getString("receiver"));
         msg.setTimestamp(extras.getString("timestamp"));
 
-        Log.i("msg","Recv: "+msg.getReceiver()+" send: "+msg.getSender());
+        Log.i("msg", "Recv: " + msg.getReceiver() + " send: " + msg.getSender());
 
         notifyNewMessage(msg);
-        Log.i("GCM", "Received : (" +messageType+")  "+extras.getString("title"));
         WakeUp.release();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ChatActivity.updateChat(msg);
+            }
+        });
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 

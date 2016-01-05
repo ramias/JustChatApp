@@ -33,8 +33,8 @@ public class ChatActivity extends AppCompatActivity {
     private Button btnSend, btnClear, btnCam;
     private EditText edtInput;
     private ListView listView;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> messageList;
+    private static ArrayAdapter<String> adapter;
+    private static ArrayList<String> messageList;
     private String friendName, username;
 
     @Override
@@ -122,10 +122,7 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Message result) {
                         Log.i("message", "resultset: " + result);
-                        if (result != null) {
-                            messageList.add(formatTime(Calendar.getInstance().getTimeInMillis()) + " - " + result.getSender() + ": " + result.getBody());
-                            adapter.notifyDataSetChanged();
-                        }
+                        updateChat(result);
                     }
                 }.execute(msg, null, null);
 
@@ -170,7 +167,14 @@ public class ChatActivity extends AppCompatActivity {
         }.execute(null, null, null);
     }
 
-    private String formatTime(long time) {
+    public static void updateChat(Message msg){
+        if (msg != null) {
+            messageList.add(formatTime(Calendar.getInstance().getTimeInMillis()) + " - " + msg.getSender() + ": " + msg.getBody());
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+    private static String formatTime(long time) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(time);
     }
