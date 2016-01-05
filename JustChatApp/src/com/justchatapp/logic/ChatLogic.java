@@ -1,4 +1,4 @@
-package logic;
+package com.justchatapp.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,10 +9,10 @@ import javax.ws.rs.*;
 
 import com.google.gson.Gson;
 
-import database.ChatDB;
+import com.justchatapp.database.ChatDB;
 
-import model.Chat;
-import vm.ChatViewModel;
+import com.justchatapp.model.Chat;
+import com.justchatapp.vm.ChatViewModel;
 
 @Path("chat")
 public class ChatLogic {
@@ -36,8 +36,9 @@ public class ChatLogic {
 		List<ChatViewModel> chatvm = new ArrayList<ChatViewModel>();
 
 		originalChat = ChatDB.getChatHistory(chat);
-		originalChat.forEach(c -> c.setMessage(c.getMessage().replaceAll("(.{60})", "$1\n")));
-		originalChat.forEach(c -> chatvm.add(new ChatViewModel(c)));
+		// FIX for Java 1.7 ??
+		//originalChat.forEach(c -> c.setMessage(c.getMessage().replaceAll("(.{60})", "$1\n")));
+		//originalChat.forEach(c -> chatvm.add(new ChatViewModel(c)));
 		String json = null;
 		if (chatvm.size() > 0) {
 			Gson gson = new Gson();
