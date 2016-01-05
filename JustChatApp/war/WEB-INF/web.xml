@@ -15,7 +15,6 @@
 	</context-param>
 	
 	<!-- Disable use of threading for single-threaded environments such as the Google AppEngine. -->
-
     <context-param>
         <param-name>com.sun.faces.enableThreading</param-name>
         <param-value>false</param-value>
@@ -38,7 +37,7 @@
 
 	<!-- Welcome page -->
 	<welcome-file-list>
-		<welcome-file>faces/hello.xhtml</welcome-file>
+		<welcome-file>login.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<!-- JSF mapping -->
