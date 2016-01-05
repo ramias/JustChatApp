@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,6 +60,8 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onClick(View arg0) {
             file = new File(Environment.getExternalStorageDirectory(), fileNameGenerator());
+            Log.i("cameraPath", "file abspath: "+ file.getAbsolutePath());
+            Log.i("cameraPath", "file path: "+ file.getPath());
             outputFileUri = Uri.fromFile(file);
             intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
@@ -90,6 +93,7 @@ public class CameraActivity extends AppCompatActivity {
             if(data!=null){
                 if(data.hasExtra("data")){
                     Bitmap thumbnailImg = data.getParcelableExtra("data");
+                    thumbnail.setImageBitmap(thumbnailImg);
                 }
             }else{
 
@@ -99,6 +103,7 @@ public class CameraActivity extends AppCompatActivity {
                 int height = thumbnail.getHeight();
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
+                Log.i("cameraPath","cam path: " +  outputFileUri);
                 BitmapFactory.decodeFile(outputFileUri.getPath(), options);
                 int imageHeight = options.outHeight;
                 int imageWidth = options.outWidth;

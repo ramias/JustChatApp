@@ -2,12 +2,9 @@ package com.example.thomas.justchat.justchat.controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,31 +15,27 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.thomas.justchat.R;
 import com.example.thomas.justchat.justchat.model.Message;
 import com.example.thomas.justchat.justchat.model.MessageClient;
-import java.io.File;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
  * Created by Thomas on 2015-12-30.
  */
 public class ChatActivity extends AppCompatActivity {
-
-
     private TextView txtChatWith;
     private Button btnSend, btnClear, btnCam;
     private EditText edtInput;
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> messageList;
-    private ArrayList<Message> messageObjList;
     private String friendName, username;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +63,6 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         messageList = new ArrayList<>();
-        messageObjList = new ArrayList<>();
         adapter = new ArrayAdapter(this, R.layout.textview_message, messageList);
         listView = (ListView) findViewById(R.id.lv_chatHistory);
         edtInput = (EditText) findViewById(R.id.edt_input);
@@ -81,8 +73,8 @@ public class ChatActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String quote = ((TextView) view).getText().toString().substring(8);
-                String time = ((TextView) view).getText().toString().substring(0,5);
-                edtInput.setText("Quote: '"+quote+"' at: "+time);
+                String time = ((TextView) view).getText().toString().substring(0, 5);
+                edtInput.setText("Quote: '" + quote + "' at: " + time);
             }
         });
 
@@ -92,28 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         btnCam = (Button) findViewById(R.id.btnCam);
         btnCam.setOnClickListener(new OnCameraBtnClickListener());
 
-        new AsyncTask<Void, Void, ArrayList>() {
-            @Override
-            protected ArrayList doInBackground(Void... params) {
-                ArrayList<Message> messages = MessageClient.getChatMessages(username, friendName);
-                ArrayList<String> parsedMessages = new ArrayList<>();
-                if (messages != null) {
-                    for (Message m : messages) {
-                        parsedMessages.add(m.getTimestamp() + " - " + m.getSender() + ": " + m.getBody());
-                    }
-                }
-                return parsedMessages;
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList result) {
-                Log.i("message", "resultset: " + result);
-                if (result != null) {
-                    messageList.addAll(result);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        }.execute(null, null, null);
+       getChatHistory();
     }
 
     // Listener for clear button.
@@ -172,6 +143,31 @@ public class ChatActivity extends AppCompatActivity {
             i.putExtra("friendName", friendName);
             startActivity(i);
         }
+    }
+
+    private void getChatHistory() {
+        new AsyncTask<Void, Void, ArrayList>() {
+            @Override
+            protected ArrayList doInBackground(Void... params) {
+                ArrayList<Message> messages = MessageClient.getChatMessages(username, friendName);
+                ArrayList<String> parsedMessages = new ArrayList<>();
+                if (messages != null) {
+                    for (Message m : messages) {
+                        parsedMessages.add(m.getTimestamp() + " - " + m.getSender() + ": " + m.getBody());
+                    }
+                }
+                return parsedMessages;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList result) {
+                Log.i("message", "resultset: " + result);
+                if (result != null) {
+                    messageList.addAll(result);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }.execute(null, null, null);
     }
 
     private String formatTime(long time) {
