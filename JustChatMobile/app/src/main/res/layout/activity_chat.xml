@@ -54,7 +54,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -94,7 +95,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp" />
         </LinearLayout>
 

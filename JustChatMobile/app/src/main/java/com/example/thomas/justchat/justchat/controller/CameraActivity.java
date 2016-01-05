@@ -3,6 +3,7 @@ package com.example.thomas.justchat.justchat.controller;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,8 @@ public class CameraActivity extends AppCompatActivity {
     private String friendName;
     private ImageView thumbnail;
     private Uri outputFileUri;
+    private int width, height;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +55,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (outputFileUri != null) {
-            outState.putString("cameraImageUri", outputFileUri.toString());
-        }
-    }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState.containsKey("cameraImageUri")) {
-            outputFileUri = Uri.parse(savedInstanceState.getString("cameraImageUri"));
-
-        }
-    }
 
     // Listener for Cam button.
     private class OnCameraBtnClickListener implements View.OnClickListener {
@@ -93,14 +81,13 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (data != null) {
-                if (data.hasExtra("data")) {
-                    Bitmap thumbnailImg = data.getParcelableExtra("data");
-                    thumbnail.setImageBitmap(thumbnailImg);
-                }
-            } else if (outputFileUri != null){
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                thumbnail.setImageBitmap(imageBitmap);
+            } else{
                 //Resize
-                int width = 100;
-                int height = 100;
+                width = thumbnail.getWidth();
+                height = thumbnail.getHeight();
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 Log.i("cameraPath", "cam path: " + outputFileUri);
@@ -115,16 +102,27 @@ public class CameraActivity extends AppCompatActivity {
 
                 options.inJustDecodeBounds = false;
                 options.inSampleSize = scaleFactor;
-                options.inPurgeable = true;
+                options.inPurgeable  = true;
 
                 Bitmap bitmap = BitmapFactory.decodeFile(outputFileUri.getPath(), options);
 
-                thumbnail.setImageBitmap(bitmap);
+                thumbnail.setImageBitmap(rotateImage(bitmap,90));
             }
         } else {
             Log.i("camera", "result: " + resultCode);
         }
     }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Bitmap retVal;
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        retVal = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+
+        return retVal;
+    }
+
 
     /**
      * Create a File for saving an image or video http://developer.android.com/guide/topics/media/camera.html#saving-media
