@@ -2,9 +2,11 @@
     <string name="app_name">JustChat</string>
     <string name="inChatWith">in chat with</string>
     <string name="enterMsgHint">Enter message</string>
+    <string name="enterImgMsgHint">Attach message to image</string>
     <string name="specifyUsername">Specify username</string>
     <string name="btnSendReg">Login</string>
     <string name="btnSend">Send Message</string>
+    <string name="btnSendImg">Send image</string>
     <string name="btnClear">Clear</string>
     <string name="btnQuit">Quit</string>
     <string name="btnCam">Camera</string>

@@ -42,8 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayList<String> messageList;
     private ArrayList<Message> messageObjList;
     private String friendName, username;
-    private File file;
-    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,7 @@ public class ChatActivity extends AppCompatActivity {
         btnClear.setOnClickListener(new OnClearBtnClickListener());
 
         btnCam = (Button) findViewById(R.id.btnCam);
-        btnCam.setOnClickListener(new OnCamTestBtnClickListener());
+        btnCam.setOnClickListener(new OnCameraBtnClickListener());
 
         new AsyncTask<Void, Void, ArrayList>() {
             @Override
@@ -115,15 +114,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         }.execute(null, null, null);
-    }
-
-    // exempel på filnamn som genereras: 160105_IMG7235.jpg
-    private String fileNameGenerator() {
-        String pattern = "yyMMdd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String fileName = simpleDateFormat.format(new Date());
-        fileName = fileName.concat("_IMG"+((int)(Math.random()*8999+1000))+".jpg");
-        return fileName;
     }
 
     // Listener for clear button.
@@ -175,14 +165,12 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     // Listener for Cam button.
-    private class OnCamTestBtnClickListener implements View.OnClickListener {
+    private class OnCameraBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
-            file = new File(Environment.getExternalStorageDirectory(), fileNameGenerator());
-            Uri outputFileUri = Uri.fromFile(file);
-            intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            startActivityForResult(intent, 1);
+            Intent i = new Intent(getBaseContext(), CameraActivity.class);
+            i.putExtra("friendName", friendName);
+            startActivity(i);
         }
     }
 
