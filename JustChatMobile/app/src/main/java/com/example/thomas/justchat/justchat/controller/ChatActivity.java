@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -77,15 +79,20 @@ public class ChatActivity extends AppCompatActivity {
         btnClear = (Button) findViewById(R.id.btnClear);
 
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String quote = ((TextView) view).getText().toString().substring(8);
+                String time = ((TextView) view).getText().toString().substring(0,5);
+                edtInput.setText("Quote: '"+quote+"' at: "+time);
+            }
+        });
+
         btnSend.setOnClickListener(new OnSendBtnClickListener());
         btnClear.setOnClickListener(new OnClearBtnClickListener());
 
         btnCam = (Button) findViewById(R.id.btnCam);
         btnCam.setOnClickListener(new OnCamTestBtnClickListener());
-        file = new File(Environment.getExternalStorageDirectory(), "test_pic.jpg");
-        Uri outputFileUri = Uri.fromFile(file);
-        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
         new AsyncTask<Void, Void, ArrayList>() {
             @Override
             protected ArrayList doInBackground(Void... params) {
@@ -110,6 +117,14 @@ public class ChatActivity extends AppCompatActivity {
         }.execute(null, null, null);
     }
 
+    // exempel på filnamn som genereras: 160105_IMG7235.jpg
+    private String fileNameGenerator() {
+        String pattern = "yyMMdd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String fileName = simpleDateFormat.format(new Date());
+        fileName = fileName.concat("_IMG"+((int)(Math.random()*8999+1000))+".jpg");
+        return fileName;
+    }
 
     // Listener for clear button.
     private class OnClearBtnClickListener implements View.OnClickListener {
@@ -163,10 +178,13 @@ public class ChatActivity extends AppCompatActivity {
     private class OnCamTestBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
+            file = new File(Environment.getExternalStorageDirectory(), fileNameGenerator());
+            Uri outputFileUri = Uri.fromFile(file);
+            intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             startActivityForResult(intent, 1);
         }
     }
-
 
     private String formatTime(long time) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");

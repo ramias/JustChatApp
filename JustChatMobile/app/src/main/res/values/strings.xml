@@ -7,5 +7,5 @@
     <string name="btnSend">Send Message</string>
     <string name="btnClear">Clear</string>
     <string name="btnQuit">Quit</string>
-    <string name="btnCam">Cam</string>
+    <string name="btnCam">Camera</string>
 </resources>
