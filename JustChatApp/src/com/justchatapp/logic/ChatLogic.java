@@ -31,12 +31,12 @@ public class ChatLogic {
 	@Path("/history")
 	@Produces("application/json")
 	public String getChatHistory(@QueryParam("chater") String chater, @QueryParam("chatee") String chatee) {
-		Chat chat = new Chat(chater, chatee);
-		List<Chat> originalChat = new ArrayList<Chat>();
+		//Chat chat = new Chat(chater, chatee);
+		//List<Chat> originalChat = new ArrayList<Chat>();
 		List<ChatViewModel> chatvm = new ArrayList<ChatViewModel>();
-
-		originalChat = ChatDB.getChatHistory(chat);
+		
 		// FIX for Java 1.7 ??
+		//originalChat = ChatDB.getChatHistory(chat);
 		//originalChat.forEach(c -> c.setMessage(c.getMessage().replaceAll("(.{60})", "$1\n")));
 		//originalChat.forEach(c -> chatvm.add(new ChatViewModel(c)));
 		String json = null;

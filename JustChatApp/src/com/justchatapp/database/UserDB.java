@@ -37,8 +37,8 @@ public class UserDB {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UserPU");
 		EntityManager em = emf.createEntityManager();
 		try {
-			String query = "from User where username = ?1 and password = ?2";
-			if (em.createQuery(query, User.class).setParameter(1, usr.getUsername()).setParameter(2, usr.getPassword())
+			String query = "from User where username = ?1 and regid = ?2";
+			if (em.createQuery(query, User.class).setParameter(1, usr.getUsername()).setParameter(2, usr.getRegid())
 					.getSingleResult() != null) {
 				exists = true;
 			}

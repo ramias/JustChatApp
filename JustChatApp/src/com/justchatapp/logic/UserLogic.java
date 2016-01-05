@@ -1,6 +1,5 @@
 package com.justchatapp.logic;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,8 +39,7 @@ public class UserLogic {
 	public String addUser(String json) {
 		Gson gson = new Gson();
 		Map<String, String> jsonLog = gson.fromJson(json, HashMap.class);
-		User usr = new User(jsonLog.get("username"), jsonLog.get("password"), jsonLog.get("name"),
-				Date.valueOf(jsonLog.get("birthdate")), jsonLog.get("gender"));
+		User usr = new User(jsonLog.get("username"), jsonLog.get("regid"));
 		boolean success = UserDB.addUser(usr);
 		if (success)
 			return "200";
@@ -73,7 +71,7 @@ public class UserLogic {
 	public String getUserInfo(@QueryParam("user") String user) {
 		String json = null;
 		User usr = UserDB.getUserInfo(user);
-		UserViewModel vm = new UserViewModel(usr.getUsername(),usr.getPassword(),usr.getBirthDate(),usr.getGender());
+		UserViewModel vm = new UserViewModel(usr.getUsername(),usr.getRegid());
 		Gson gson = new Gson();
 		json = gson.toJson(vm, UserViewModel.class);
 		return json;
