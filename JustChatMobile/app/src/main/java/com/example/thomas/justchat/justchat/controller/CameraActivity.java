@@ -24,9 +24,6 @@ import java.util.Date;
  * Created by Thomas on 2016-01-05.
  */
 public class CameraActivity extends AppCompatActivity {
-
-
-    private File file;
     private Intent intent;
     private Button btnCam, btnSendImg;
     private String friendName;
@@ -55,17 +52,31 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outputFileUri != null) {
+            outState.putString("cameraImageUri", outputFileUri.toString());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey("cameraImageUri")) {
+            outputFileUri = Uri.parse(savedInstanceState.getString("cameraImageUri"));
+
+        }
+    }
+
     // Listener for Cam button.
     private class OnCameraBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
-            file = new File(Environment.getExternalStorageDirectory(), fileNameGenerator());
-            Log.i("cameraPath", "file abspath: "+ file.getAbsolutePath());
-            Log.i("cameraPath", "file path: "+ file.getPath());
-            outputFileUri = Uri.fromFile(file);
+            outputFileUri = getOutputMediaFile();
             intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            startActivityForResult(intent, 1);
+            startActivityForResult(intent, 100);
         }
     }
 
@@ -73,41 +84,32 @@ public class CameraActivity extends AppCompatActivity {
     private class OnSendImgBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
-            Toast.makeText(getApplicationContext(), "Sending image to "+friendName, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Sending image to " + friendName, Toast.LENGTH_LONG).show();
             // httpPost request -->
         }
     }
 
-    // exempel på filnamn som genereras: 160105_IMG7235.jpg
-    private String fileNameGenerator() {
-        String pattern = "yyMMdd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String fileName = simpleDateFormat.format(new Date());
-        fileName = fileName.concat("_IMG"+((int)(Math.random()*8999+1000))+".jpg");
-        return fileName;
-    }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == 1){
-            if(data!=null){
-                if(data.hasExtra("data")){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                if (data.hasExtra("data")) {
                     Bitmap thumbnailImg = data.getParcelableExtra("data");
                     thumbnail.setImageBitmap(thumbnailImg);
                 }
-            }else{
-
+            } else if (outputFileUri != null){
                 //Resize
-
-                int width = thumbnail.getWidth();
-                int height = thumbnail.getHeight();
+                int width = 100;
+                int height = 100;
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
-                Log.i("cameraPath","cam path: " +  outputFileUri);
-                BitmapFactory.decodeFile(outputFileUri.getPath(), options);
+                Log.i("cameraPath", "cam path: " + outputFileUri);
+
+                BitmapFactory.decodeFile(this.outputFileUri.getPath(), options);
+
                 int imageHeight = options.outHeight;
                 int imageWidth = options.outWidth;
-                int scaleFactor = Math.min(imageWidth/width, imageHeight/height);
+                int scaleFactor = Math.min(imageWidth / width, imageHeight / height);
 
                 // Decode
 
@@ -115,10 +117,34 @@ public class CameraActivity extends AppCompatActivity {
                 options.inSampleSize = scaleFactor;
                 options.inPurgeable = true;
 
-                Bitmap bitmap = BitmapFactory.decodeFile(outputFileUri.getPath(),options);
+                Bitmap bitmap = BitmapFactory.decodeFile(outputFileUri.getPath(), options);
 
                 thumbnail.setImageBitmap(bitmap);
             }
+        } else {
+            Log.i("camera", "result: " + resultCode);
         }
+    }
+
+    /**
+     * Create a File for saving an image or video http://developer.android.com/guide/topics/media/camera.html#saving-media
+     */
+    private static Uri getOutputMediaFile() {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "JustChat");
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_" + timeStamp + ".jpg");
+
+        return Uri.fromFile(mediaFile);
     }
 }
