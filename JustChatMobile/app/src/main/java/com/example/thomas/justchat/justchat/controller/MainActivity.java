@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         btnAddFriend = (Button) findViewById(R.id.btn_addFriend);
         btnAddPhoneNr = (Button) findViewById(R.id.btnPhoneNr);
         btnAddFriend.setOnClickListener(new OnAddFriendListener());
+        btnAddPhoneNr.setOnClickListener(new OnAddPhoneNrBtnClickListener());
         memberNameList = new ArrayList<>();
         adapter = new ArrayAdapter(this, R.layout.textview_friends, memberNameList);
 
@@ -73,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }.execute(null, null, null);
+    }
+
+    // Listener for Add phone nr button.
+    private class OnAddPhoneNrBtnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View arg0) {
+            // add number
+        }
     }
 
     // Listener for clear button.
