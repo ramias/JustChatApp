@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,10 +28,11 @@ import java.util.Date;
 public class CameraActivity extends AppCompatActivity {
     private Intent intent;
     private Button btnCam, btnSendImg;
-    private String friendName;
+    private String friendName, phoneNumber;
     private ImageView thumbnail;
     private Uri outputFileUri;
     private int width, height;
+    private EditText edtImgInput;
 
 
     @Override
@@ -41,6 +43,8 @@ public class CameraActivity extends AppCompatActivity {
         btnCam = (Button) findViewById(R.id.btnCam);
         btnSendImg = (Button) findViewById(R.id.btnSendImg);
 
+        edtImgInput = (EditText) findViewById(R.id.edt_imgInput);
+        edtImgInput.setText("");
         btnCam.setOnClickListener(new OnCameraBtnClickListener());
         btnSendImg.setOnClickListener(new OnSendImgBtnClickListener());
 
@@ -51,6 +55,8 @@ public class CameraActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
+            //phoneNumber = extras.getString("phoneNr");
+            phoneNumber = "0706503333";
             friendName = extras.getString("friendName");
         }
     }
@@ -64,6 +70,7 @@ public class CameraActivity extends AppCompatActivity {
             outputFileUri = getOutputMediaFile();
             intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            btnSendImg.setEnabled(true);
             startActivityForResult(intent, 100);
         }
     }
@@ -73,11 +80,19 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onClick(View arg0) {
             Toast.makeText(getApplicationContext(), "Sending image to " + friendName, Toast.LENGTH_LONG).show();
-            createMMS();
+
+            createMMS(edtImgInput.getText().toString()); // skicka med teleNr som arg.
         }
     }
 
-    private void createMMS() {
+    private void createMMS(String imageDescription) {
+
+        Intent mmsIntent = new Intent(Intent.ACTION_SEND, outputFileUri);
+        mmsIntent.putExtra("sms_body",imageDescription);
+        mmsIntent.putExtra("address", phoneNumber); // test
+        mmsIntent.putExtra(Intent.EXTRA_STREAM,outputFileUri);
+        mmsIntent.setType("image/jpeg");
+        startActivity(mmsIntent);
 
     }
 
@@ -114,6 +129,7 @@ public class CameraActivity extends AppCompatActivity {
             }
         } else {
             Log.i("camera", "result: " + resultCode);
+            btnSendImg.setEnabled(false);
         }
     }
 
