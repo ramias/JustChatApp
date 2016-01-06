@@ -57,7 +57,7 @@ public class Requester {
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
         String line = "";
         String result = "";
         while ((line = bufferedReader.readLine()) != null) {

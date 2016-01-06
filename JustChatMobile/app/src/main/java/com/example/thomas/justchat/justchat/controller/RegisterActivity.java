@@ -34,7 +34,6 @@ public class RegisterActivity extends Activity {
     private String regId;
     private final String PROJECT_NUMBER = "370652955246";
     private EditText edtUsername;
-    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
