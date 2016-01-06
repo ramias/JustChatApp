@@ -108,10 +108,12 @@ public class ChatActivity extends AppCompatActivity {
                 msg.setSender(username);
                 msg.setReceiver(friendName);
                 msg.setBody(edtInput.getText().toString());
+                Log.i("encodeing", "edittext :" + edtInput.getText().toString());
                 msg.setTimestamp(String.valueOf(Calendar.getInstance().getTimeInMillis()));
                 new AsyncTask<Message, Void, Message>() {
                     @Override
                     protected Message doInBackground(Message... params) {
+                        Log.i("encodeing", "params :" + params[0].getBody());
                         if (MessageClient.sendMessage(params[0]) != "-1")
                             return params[0];
                         else {

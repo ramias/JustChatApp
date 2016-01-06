@@ -59,10 +59,13 @@ public class RegisterActivity extends Activity {
         @Override
         public void onClick(View arg0) {
             if (TextUtils.isEmpty(edtUsername.getText())) {
-                Toast.makeText(getApplicationContext(), "Specify username!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Specify username without whitespaces!", Toast.LENGTH_LONG).show();
                 Vibrator vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vib.vibrate(100);
             } else {
+                if(edtUsername.getText().toString().contains(" ")){
+                    edtUsername.setText(edtUsername.getText().toString().replaceAll("\\s","_"));
+                }
                 doLogin();
             }
         }
