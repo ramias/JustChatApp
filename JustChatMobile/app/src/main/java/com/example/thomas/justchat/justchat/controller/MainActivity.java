@@ -17,8 +17,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.thomas.justchat.R;
 import com.example.thomas.justchat.justchat.model.UserClient;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,7 +82,53 @@ public class MainActivity extends AppCompatActivity {
     private class OnAddPhoneNrBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
-            // add number
+            LayoutInflater li = LayoutInflater.from(context);
+            View promptsView = li.inflate(R.layout.prompt_addphone, null);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    context);
+
+            alertDialogBuilder.setView(promptsView);
+
+            final EditText userInput = (EditText) promptsView.findViewById(R.id.et_phoneInput);
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Add",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    if (userInput.length() > 9) {
+                                        new AsyncTask<String, Void, String>() {
+                                            @Override
+                                            protected String doInBackground(String... params) {
+                                                return UserClient.addPhone(username, params[0]);
+                                            }
+
+                                            @Override
+                                            protected void onPostExecute(String result) {
+                                                if (result.equals("200")) {
+                                                    Toast.makeText(getApplicationContext(), "Number stored!", Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "This number is taken!", Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }
+                                        }.execute(userInput.getText().toString(), null, null);
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Please enter your phone number", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
     }
 
@@ -144,15 +192,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     private class MemberListListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent i = new Intent(getBaseContext(), ChatActivity.class);
             i.putExtra("item", adapter.getItem(position));
             i.putExtra("username", username);
-            i.putExtra("isPendingIntent","false");
+            i.putExtra("isPendingIntent", "false");
             startActivity(i);
         }
 

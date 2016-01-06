@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.thomas.justchat.R;
+import com.example.thomas.justchat.justchat.model.UserClient;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -55,12 +57,29 @@ public class CameraActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            //phoneNumber = extras.getString("phoneNr");
-            phoneNumber = "0706503333";
             friendName = extras.getString("friendName");
+            setPhoneNumber();
         }
     }
 
+    private void setPhoneNumber() {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                return UserClient.getPhoneNumber(params[0]);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.i("mms", "resultset: " + result);
+                if (result != null) {
+                    phoneNumber =  result;
+                } else {
+                    phoneNumber = null;
+                }
+            }
+        }.execute(friendName, null, null);
+    }
 
 
     // Listener for Cam button.
@@ -79,18 +98,21 @@ public class CameraActivity extends AppCompatActivity {
     private class OnSendImgBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
-            Toast.makeText(getApplicationContext(), "Sending image to " + friendName, Toast.LENGTH_LONG).show();
-
-            createMMS(edtImgInput.getText().toString()); // skicka med teleNr som arg.
+            if(phoneNumber != null) {
+                Toast.makeText(getApplicationContext(), "Sending image to " + friendName, Toast.LENGTH_LONG).show();
+                createMMS(edtImgInput.getText().toString()); // skicka med teleNr som arg.
+            } else {
+                Toast.makeText(getApplicationContext(), friendName + " does not want to receive images", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
     private void createMMS(String imageDescription) {
 
         Intent mmsIntent = new Intent(Intent.ACTION_SEND, outputFileUri);
-        mmsIntent.putExtra("sms_body",imageDescription);
+        mmsIntent.putExtra("sms_body", imageDescription);
         mmsIntent.putExtra("address", phoneNumber); // test
-        mmsIntent.putExtra(Intent.EXTRA_STREAM,outputFileUri);
+        mmsIntent.putExtra(Intent.EXTRA_STREAM, outputFileUri);
         mmsIntent.setType("image/jpeg");
         startActivity(mmsIntent);
 
@@ -103,7 +125,7 @@ public class CameraActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 thumbnail.setImageBitmap(imageBitmap);
-            } else{
+            } else {
                 //Resize
                 width = thumbnail.getWidth();
                 height = thumbnail.getHeight();
@@ -121,11 +143,11 @@ public class CameraActivity extends AppCompatActivity {
 
                 options.inJustDecodeBounds = false;
                 options.inSampleSize = scaleFactor;
-                options.inPurgeable  = true;
+                options.inPurgeable = true;
 
                 Bitmap bitmap = BitmapFactory.decodeFile(outputFileUri.getPath(), options);
 
-                thumbnail.setImageBitmap(rotateImage(bitmap,90));
+                thumbnail.setImageBitmap(rotateImage(bitmap, 90));
             }
         } else {
             Log.i("camera", "result: " + resultCode);

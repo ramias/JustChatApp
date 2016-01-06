@@ -61,6 +61,7 @@ public class GcmMessageHandler extends IntentService {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
                 ChatActivity.updateChat(msg);
             }
         });

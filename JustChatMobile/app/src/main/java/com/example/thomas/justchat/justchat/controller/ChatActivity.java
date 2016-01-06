@@ -168,7 +168,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public static void updateChat(Message msg){
-        if (msg != null) {
+        if (msg != null ||messageList != null ||adapter != null) {
             messageList.add(formatTime(Calendar.getInstance().getTimeInMillis()) + " - " + msg.getSender() + ": " + msg.getBody());
             adapter.notifyDataSetChanged();
         }

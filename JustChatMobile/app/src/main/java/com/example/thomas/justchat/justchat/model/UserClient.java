@@ -40,4 +40,22 @@ public class UserClient {
         } else return null;
     }
 
+    public static String addPhone(String username, String phonerNr) {
+        HashMap<String, String> userMap = new HashMap<>();
+        userMap.put("user", username);
+        userMap.put("phonenumber", phonerNr);
+        Gson gson = new Gson();
+        String json = gson.toJson(userMap);
+        Log.i("phone", json);
+        return Requester.makeRequest("http://130.237.84.211:8080/justchat/rest/user/addphone", json, "POST");
+    }
+
+    public static String getPhoneNumber(String user) {
+        HashMap<String, String> userMap = new HashMap<>();
+        userMap.put("user", user);
+        Gson gson = new Gson();
+        String json = gson.toJson(userMap);
+        Log.i("phone", json);
+        return Requester.makeRequest("http://130.237.84.211:8080/justchat/rest/user/getphone", json, "POST");
+    }
 }
