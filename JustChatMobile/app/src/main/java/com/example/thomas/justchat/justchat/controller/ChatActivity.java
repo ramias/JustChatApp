@@ -84,7 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         btnCam = (Button) findViewById(R.id.btnCam);
         btnCam.setOnClickListener(new OnCameraBtnClickListener());
 
-       getChatHistory();
+        getChatHistory();
     }
 
     // Listener for clear button.
@@ -167,13 +167,14 @@ public class ChatActivity extends AppCompatActivity {
         }.execute(null, null, null);
     }
 
-    public static void updateChat(Message msg){
-        if (msg != null ||messageList != null ||adapter != null) {
+    public static void updateChat(Message msg) {
+        if (msg != null && messageList != null && adapter != null) {
             messageList.add(formatTime(Calendar.getInstance().getTimeInMillis()) + " - " + msg.getSender() + ": " + msg.getBody());
             adapter.notifyDataSetChanged();
         }
 
     }
+
     private static String formatTime(long time) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(time);

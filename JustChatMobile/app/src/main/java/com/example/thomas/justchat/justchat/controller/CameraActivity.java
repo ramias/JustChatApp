@@ -72,10 +72,10 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String result) {
                 Log.i("mms", "resultset: " + result);
-                if (result != null) {
-                    phoneNumber =  result;
-                } else {
+                if (result.equals("404")) {
                     phoneNumber = null;
+                } else {
+                    phoneNumber =  result;
                 }
             }
         }.execute(friendName, null, null);
