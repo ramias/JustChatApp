@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView txtWelcome;
     private ListView memberList;
-    private Button addFriend;
+    private Button btnAddFriend, btnAddPhoneNr;
     private ArrayList<String> memberNameList;
     private ArrayAdapter<String> adapter;
     private String username;
@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         txtWelcome = (TextView) findViewById(R.id.txtViewWelcome);
         memberList = (ListView) findViewById(R.id.lv_members);
-        addFriend = (Button) findViewById(R.id.btn_addFriend);
-        addFriend.setOnClickListener(new OnAddFriendListener());
+        btnAddFriend = (Button) findViewById(R.id.btn_addFriend);
+        btnAddPhoneNr = (Button) findViewById(R.id.btnPhoneNr);
+        btnAddFriend.setOnClickListener(new OnAddFriendListener());
         memberNameList = new ArrayList<>();
         adapter = new ArrayAdapter(this, R.layout.textview_friends, memberNameList);
 
@@ -132,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
 
     private class MemberListListener implements AdapterView.OnItemClickListener {
         @Override

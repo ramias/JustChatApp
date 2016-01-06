@@ -73,8 +73,12 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onClick(View arg0) {
             Toast.makeText(getApplicationContext(), "Sending image to " + friendName, Toast.LENGTH_LONG).show();
-            // httpPost request -->
+            createMMS();
         }
+    }
+
+    private void createMMS() {
+
     }
 
     @Override
