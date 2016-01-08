@@ -75,31 +75,12 @@
 				<div class="col-lg-8 col-lg-offset-2">
 
 					<br />
-					<div class="my-signin2" data-width="300" data-height="200" data-longtitle="true" />
-					<script type="text/javascript">
-				    function onSuccess(googleUser) {
-				      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-				    }
-				    function onFailure(error) {
-				      console.log(error);
-				    }
-				    function renderButton() {
-				      gapi.signin2.render('my-signin2', {
-				        'scope': 'https://www.googleapis.com/auth/plus.login',
-				        'width': 200,
-				        'height': 50,
-				        'longtitle': true,
-				        'theme': 'dark',
-				        'onsuccess': onSuccess,
-				        'onfailure': onFailure
-				      });
-				    }
-				  </script>
-					<script
-						src="https://apis.google.com/js/platform.js?onload=renderButton"
-						async="async" defer="defer" type="text/javascript"></script>
-					<div class="row control-group"></div>
-
+					
+					<div class="row control-group">
+                    
+					<iframe src="/signin.html"></iframe>
+					
+					</div>
 				</div>
 			</div>
 		</div>
