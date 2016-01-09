@@ -4,32 +4,9 @@
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jsf-impl-gae.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jsf-api.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/el-api-2.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/el-impl-2.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.ejb.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.faces-2.3.0-m04.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.persistence.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-commons-annotations-5.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-core-5.0.2.Final.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-entitymanager-5.0.2.Final.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/primefaces-5.3.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/activation-1.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/geronimo-jaxrs_1.1_spec-1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jaxb-api-2.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jaxb-impl-2.2.1.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-simple-1.6.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/stax-api-1.0-2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/wink-1.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/wink-client-1.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/wink-common-1.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/wink-server-1.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jsf-api.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jsf-impl-gae.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
