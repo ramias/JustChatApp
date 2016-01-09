@@ -7,12 +7,29 @@
 
 <h:head>
 	<title>GAE + JSF</title>
+	<meta name="google-signin-scope" content="profile email" />
+	<meta name="google-signin-client_id"
+		content="35683407928-7rfnvm8tcgkff8nbt2oihqrrrshqsdcs.apps.googleusercontent.com" />
+	<script src="https://apis.google.com/js/platform.js" async=""
+		defer="" />
+	<h:outputScript>
+		function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail());
+		}
+</h:outputScript>
+
 </h:head>
 <h:body>
 	<h1>Google App Engine + JSF 2.0 example - hello.xhtml</h1>
 	<h:form>
+	<div class="g-signin2" data-onsuccess="onSignIn"></div>
 		<h:inputText value="#{helloBean.name}"></h:inputText>
 		<h:commandButton value="Welcome Me" action="welcome"></h:commandButton>
+		
 	</h:form>
 </h:body>
 </html>
