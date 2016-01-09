@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta charset="utf-8" />
@@ -21,18 +22,25 @@
 	<link
 		href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
 		rel="stylesheet" type="text/css"></link>
-	<script src="https://apis.google.com/js/platform.js" async="" defer="" />
+	<script src="https://apis.google.com/js/platform.js" async="async"
+		defer="defer" />
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="UI/js/bootstrap.min.js"></script>
+
 	<h:outputScript>
 		function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
-		  '#{userBean.fullname}' = profile.getName();
-		  '#{userBean.gmail}' = profile.getEmail();
-		  console.log('Email: ' + profile.getEmail());
-
+		  var xhttp = new XMLHttpRequest();
+		  document.getElementById('loginForm:fullname').value = profile.getName();
+		  document.getElementById('loginForm:gmail').value = profile.getEmail();
+		  alert('#{userBean.gmail}' + ' ' + '#{userBean.fullname}')
+		};
+		function afterSignIn(){
+		  alert('#{userBean.gmail}' + ' ' + '#{userBean.fullname}')
+		  window.location.href = "index.jsf";
 		}
-</h:outputScript>
+		
+	</h:outputScript>
 </h:head>
 
 <h:body id="page-top" class="index">
@@ -76,8 +84,11 @@
 				<div class="col-lg-8 col-lg-offset-2">
 					<br />
 					<div class="row control-group">
-						<h:form>
-							<div class="g-signin2" align="center" data-onsuccess="onSignIn"></div>
+						<h:form id="loginForm">
+								<h:inputHidden id="fullname" value="#{userBean.fullname}" />
+								<h:inputHidden id="gmail" value="#{userBean.gmail}" />
+							<div class="g-signin2" align="center" data-onsuccess="onSignIn" />
+
 						</h:form>
 					</div>
 				</div>

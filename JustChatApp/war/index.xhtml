@@ -1,5 +1,5 @@
 <!DOCTYPE xhtml>
-<h:html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
@@ -31,14 +31,14 @@
 	</script>
     <script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
     
-    <script>
+    <h:outputScript>
   		function signOut() {
     	var auth2 = gapi.auth2.getAuthInstance();
    		auth2.signOut().then(function () {
       		console.log('User signed out.');
     	});
   		}
-	</script>
+	</h:outputScript>
 </h:head>
 
 <h:body id="page-top" class="index">
@@ -111,10 +111,13 @@
 				</div>
 
 				<div class="col-lg-9">
+										Gmail:
+                        #{userBean.gmail}
+                        <br/><br/>
+                        Full Name:
+                        #{userBean.fullname}
 					<h:form name="sentMessage" id="contactForm" novalidation="true">
-						
-                        WOWOWOOWOWOWO
-                        
+
 					</h:form>
 				</div>
 
@@ -124,4 +127,4 @@
 	</section>
 
 </h:body>
-</h:html>
+</html>
