@@ -27,13 +27,15 @@
 	<h:outputScript>
 		function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
-		  console.log('Name: ' + profile.getName());
+		  '${userBean.fullname}' = profile.getName();
+		  '${userBean.gmail}' = profile.getEmail();
 		  console.log('Email: ' + profile.getEmail());
+		  '${userBean.login}'
 		}
 </h:outputScript>
 </h:head>
 
-<body id="page-top" class="index">
+<h:body id="page-top" class="index">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -75,12 +77,12 @@
 					<br />
 					<div class="row control-group">
 						<h:form>
-							<div class="g-signin2" data-onsuccess="onSignIn"></div>
+							<div class="g-signin2" align="center" data-onsuccess="onSignIn"></div>
 						</h:form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-</body>
+</h:body>
 </html>
