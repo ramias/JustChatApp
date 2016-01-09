@@ -18,15 +18,6 @@
     <context-param>
         <param-name>com.sun.faces.enableThreading</param-name>
         <param-value>false</param-value>
-        <description>
-        When enabled, the runtime initialization and default ResourceHandler 
-        implementation will use threads to perform their functions. Set this 
-        value to false if threads aren't desired (as in the case of running 
-        within the Google Application Engine).
-
-        Note that when this option is disabled, the ResourceHandler will not 
-        pick up new versions of resources when ProjectStage is development.
-        </description>
     </context-param>
 	
 	<!-- Change to "Production" when you are ready to deploy -->

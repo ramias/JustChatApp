@@ -1,16 +1,15 @@
 package com.justchatapp.vm;
 
-import com.justchatapp.model.*;
 
 public class ChatViewModel {
 	private String chater;
 	private String chatee;
 	private String message;
 	
-	public ChatViewModel(Chat chat) {
-		this.chater = chat.getChater();
-		this.chatee = chat.getChatee();
-		this.message = chat.getMessage();
+	public ChatViewModel(String chater, String chatee, String message) {
+		this.chater = chater;
+		this.chatee = chatee;
+		this.message = message;
 	}
 
 	public String getChater() {

@@ -27,10 +27,10 @@
 	<h:outputScript>
 		function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
-		  '${userBean.fullname}' = profile.getName();
-		  '${userBean.gmail}' = profile.getEmail();
+		  '#{userBean.fullname}' = profile.getName();
+		  '#{userBean.gmail}' = profile.getEmail();
 		  console.log('Email: ' + profile.getEmail());
-		  '${userBean.login}'
+
 		}
 </h:outputScript>
 </h:head>
