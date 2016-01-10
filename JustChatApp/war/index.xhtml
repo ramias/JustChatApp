@@ -7,11 +7,9 @@
 <h:head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="google-signin-scope" content="profile email" />
 	<meta name="google-signin-client_id"
 		content="35683407928-7rfnvm8tcgkff8nbt2oihqrrrshqsdcs.apps.googleusercontent.com" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
 	<title>Faceoogle</title>
 
 	<link href="UI/css/bootstrap.min.css" rel="stylesheet"></link>
@@ -29,11 +27,30 @@
 	<script src="UI/js/bootstrap.min.js"></script>
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js">
-		
 	</script>
-	<script src="https://apis.google.com/js/platform.js" async="async"
-		defer="defer"></script>
-
+	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async="async" defer="defer"></script>
+	<h:outputScript>
+        function addFriendFunction() {
+            var friend = prompt("Please enter your friends mail", "");
+            
+            if (friend != null) {
+                document.getElementById('friendForm:friendGmail').value = friend;
+            }
+        }
+        
+		function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+		    auth2.signOut().then(function () {
+		      window.location.href = "login.jsf"
+		    });
+		}
+		
+		function onLoad() {
+	      gapi.load('auth2', function() {
+	        gapi.auth2.init();
+	      });
+	    }
+	</h:outputScript>
 </h:head>
 
 <h:body id="page-top" class="index">
@@ -50,7 +67,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 
-				<a class="navbar-brand" href="index.xhtml">Faceoogle</a>
+				<a class="navbar-brand">Faceoogle</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -58,8 +75,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<h:form id="navForm">
-						<li><a href="chat.xhtml" name="chat">Google Chat</a></li>
-						<li><a href="#" onClick="signOut();">Sign out</a></li>
+						<li><a href="#" onclick="signOut();">Sign out</a></li>
 					</h:form>
 				</ul>
 
@@ -77,22 +93,26 @@
 					<br />
 				</div>
 			</div>
+            
 			<div class="row">
 				<div class="col-lg-3" style="text-align: center">
+                
+                	<h:form id="friendForm">
+						<p:commandButton value="Add a Friend" onclick="addFriendFunction()" styleClass="form-control btn btn-success" actionListener="#{friendBean.addFriend}" />
+                        
+                        <h:inputHidden id="friendGmail" value="#{friendBean.friendUser}" />
+					</h:form>
+                    
 					<h:form>
 						<p:dataList value="#{friendBean.friendList}" var="friend"
 							type="definition">
-							<f:facet name="header">
+						<f:facet name="header">
 				            Friends
 				        </f:facet>
 							<b>#{friend}</b>
 
 							<br />
 
-							<p:button outcome="profile" value="Profile"
-								styleClass="btn-default">
-								<f:param name="user" value="#{friend}" />
-							</p:button>
 							<p:button outcome="chat" value="Chat" styleClass="btn-default">
 								<f:param name="user" value="#{friend}" />
 							</p:button>
@@ -100,11 +120,22 @@
 
 					</h:form>
 				</div>
-
-				<div class="col-lg-9">
-					Gmail: #{userBean.gmail} <br /> <br /> Full Name:
-					#{userBean.fullname}
+                
+                <div class="col-lg-7">
+                	CHAT HERE!!
+                </div>
+                
+                <div class="col-lg-2">
+					<p>
+						<b>Full Name: </b>
+						<h:outputText value="#{userBean.fullname}" />
+					</p>
+					<p>
+						<b>Mail: </b>
+						<h:outputText value="#{userBean.gmail}" />
+					</p>
 				</div>
+                
 			</div>
 		</div>
 	</section>
