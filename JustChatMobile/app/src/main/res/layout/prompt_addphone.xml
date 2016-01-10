@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="This is used for receiving images"
+        android:text="@string/phoneNrInfo"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0"
@@ -21,9 +21,9 @@
         android:id="@+id/et_phoneInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your phone number"
         android:layout_weight="1"
-        android:inputType="phone">
+        android:inputType="phone"
+        android:hint="@string/enterPhoneNr">
 
         <requestFocus />
     </EditText>

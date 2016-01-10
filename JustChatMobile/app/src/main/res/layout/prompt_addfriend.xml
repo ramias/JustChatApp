@@ -10,7 +10,7 @@
         android:id="@+id/et_friendInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter friends username"
+        android:hint="@string/addFriendHint"
         android:layout_weight="1">
 
         <requestFocus />

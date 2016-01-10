@@ -102,11 +102,12 @@ public class CameraActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Sending image to " + friendName, Toast.LENGTH_LONG).show();
                 createMMS(edtImgInput.getText().toString()); // skicka med teleNr som arg.
             } else {
-                Toast.makeText(getApplicationContext(), friendName + " does not want to receive images", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), friendName + " does not want to receive images.", Toast.LENGTH_LONG).show();
             }
         }
     }
 
+    // Enligt instruktioner ur kurslitteraturen, Android 4 - Application Development Kap.17
     private void createMMS(String imageDescription) {
 
         Intent mmsIntent = new Intent(Intent.ACTION_SEND, outputFileUri);
@@ -118,6 +119,8 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
+    // Enligt instruktioner ur kurslitteraturen, Android 4 - Application Development Kap.15
+    // Med viss modifiering pga olika android versioner.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {

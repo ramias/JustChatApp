@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     private String username;
-    private String regid;
+    private String regId;
     private String phonenumber;
 
     public User() {
@@ -18,9 +18,9 @@ public class User implements Serializable {
     }
 
 
-    public User(String username, String regid, String phonenumber) {
+    public User(String username, String regId, String phonenumber) {
         this.username = username;
-        this.regid = regid;
+        this.regId = regId;
         this.phonenumber = phonenumber;
     }
 
@@ -33,12 +33,12 @@ public class User implements Serializable {
     }
 
 
-    public String getRegid() {
-        return regid;
+    public String getRegId() {
+        return regId;
     }
 
-    public void setRegid(String regid) {
-        this.regid = regid;
+    public void setRegId(String regId) {
+        this.regId = regId;
     }
 
 

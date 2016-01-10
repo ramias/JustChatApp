@@ -14,7 +14,7 @@ public class UserClient {
     public static String register(User user) {
         HashMap<String, String> userMap = new HashMap<>();
         userMap.put("username", user.getUsername());
-        userMap.put("regid", user.getRegid());
+        userMap.put("regid", user.getRegId());
         userMap.put("phonenumber", user.getPhonenumber());
         Gson gson = new Gson();
         String json = gson.toJson(userMap);

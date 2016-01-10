@@ -8,14 +8,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.thomas.justchat.justchat.controller.SplashActivity"
-    android:background="#2a2a2a">
+    android:background="@color/backgroundColor">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/txtColor"
         android:id="@+id/txtViewWelcome"
-        android:text="Welcome"
+        android:text="@string/welcomeTxt"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textAlignment="center" />
 

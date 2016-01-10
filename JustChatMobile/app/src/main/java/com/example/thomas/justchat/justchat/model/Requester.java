@@ -1,7 +1,6 @@
 package com.example.thomas.justchat.justchat.model;
 
 import android.util.Log;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -9,7 +8,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,13 +57,12 @@ public class Requester {
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-        String line = "";
+        String line;
         String result = "";
         while ((line = bufferedReader.readLine()) != null) {
             result += line;
         }
         inputStream.close();
         return result;
-
     }
 }

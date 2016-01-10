@@ -29,7 +29,7 @@ import java.io.IOException;
 public class RegisterActivity extends Activity {
 
     private ImageView gcmImage;
-    private Button btnAppSend, btnQuit;
+    private Button btnRegAppServer, btnQuit;
     private GoogleCloudMessaging gcm;
     private String regId;
     private final String PROJECT_NUMBER = "370652955246";
@@ -47,15 +47,15 @@ public class RegisterActivity extends Activity {
         edtUsername = (EditText) findViewById(R.id.edtUsername);
 
         // Buttons
-        btnAppSend = (Button) findViewById(R.id.btnRegAppServer);
+        btnRegAppServer = (Button) findViewById(R.id.btnRegAppServer);
         btnQuit = (Button) findViewById(R.id.btnQuit);
 
-        btnAppSend.setOnClickListener(new OnAppSendBtnClickListener());
-        btnQuit.setOnClickListener(new OnQuitdBtnClickListener());
+        btnRegAppServer.setOnClickListener(new OnRegBtnClickListener());
+        btnQuit.setOnClickListener(new OnQuitBtnClickListener());
     }
 
-    // Listener for "Send reg-ID to server"-button.
-    private class OnAppSendBtnClickListener implements View.OnClickListener {
+    // Listener for "Login"-button.
+    private class OnRegBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
             if (TextUtils.isEmpty(edtUsername.getText())) {
@@ -72,7 +72,7 @@ public class RegisterActivity extends Activity {
     }
 
     // Listener for quit button.
-    private class OnQuitdBtnClickListener implements View.OnClickListener {
+    private class OnQuitBtnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View arg0) {
             finish();
@@ -83,7 +83,7 @@ public class RegisterActivity extends Activity {
 
     public void doLogin() {
         edtUsername.setEnabled(false);
-        btnAppSend.setEnabled(false);
+        btnRegAppServer.setEnabled(false);
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... params) {
@@ -108,8 +108,8 @@ public class RegisterActivity extends Activity {
             }
 
             @Override
-            protected void onPostExecute(String regid) {
-                if (regid != null) {
+            protected void onPostExecute(String regId) {
+                if (regId != null) {
                     String filename = "justStore.txt";
                     String username = edtUsername.getText().toString();
                     FileOutputStream outputStream = null;
@@ -136,9 +136,9 @@ public class RegisterActivity extends Activity {
                     return;
                 } else {
                     edtUsername.setEnabled(true);
-                    btnAppSend.setEnabled(true);
+                    btnRegAppServer.setEnabled(true);
                     Toast.makeText(getApplicationContext(),
-                            "Username is in use",
+                            "Username is in taken!",
                             Toast.LENGTH_LONG).show();
 
                 }

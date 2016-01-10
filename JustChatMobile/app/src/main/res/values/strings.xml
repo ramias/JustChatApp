@@ -12,5 +12,8 @@
     <string name="btnCam">Camera</string>
     <string name="btnAddFriend">Add friend</string>
     <string name="btnPhone">Add Phone number</string>
-
+    <string name="welcomeTxt">Welcome ...</string>
+    <string name="addFriendHint">Enter friends username</string>
+    <string name="enterPhoneNr">Enter your phone number</string>
+    <string name="phoneNrInfo">This is used for receiving images</string>
 </resources>
