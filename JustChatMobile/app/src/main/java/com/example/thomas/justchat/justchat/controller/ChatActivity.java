@@ -97,6 +97,7 @@ public class ChatActivity extends AppCompatActivity {
 
     // Listener for send button.
     private class OnSendBtnClickListener implements View.OnClickListener {
+
         @Override
         public void onClick(View arg0) {
             if (edtInput.getText().toString().equals("")) {
@@ -110,6 +111,7 @@ public class ChatActivity extends AppCompatActivity {
                 msg.setBody(edtInput.getText().toString());
                 Log.i("encodeing", "edittext :" + edtInput.getText().toString());
                 msg.setTimestamp(String.valueOf(Calendar.getInstance().getTimeInMillis()));
+                updateChat(msg);
                 new AsyncTask<Message, Void, Message>() {
                     @Override
                     protected Message doInBackground(Message... params) {
@@ -119,12 +121,6 @@ public class ChatActivity extends AppCompatActivity {
                         else {
                             return null;
                         }
-                    }
-
-                    @Override
-                    protected void onPostExecute(Message result) {
-                        Log.i("message", "resultset: " + result);
-                        updateChat(result);
                     }
                 }.execute(msg, null, null);
 

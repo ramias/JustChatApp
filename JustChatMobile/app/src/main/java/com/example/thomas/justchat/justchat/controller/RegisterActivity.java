@@ -83,6 +83,7 @@ public class RegisterActivity extends Activity {
 
     public void doLogin() {
         edtUsername.setEnabled(false);
+        btnAppSend.setEnabled(false);
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... params) {
@@ -135,6 +136,7 @@ public class RegisterActivity extends Activity {
                     return;
                 } else {
                     edtUsername.setEnabled(true);
+                    btnAppSend.setEnabled(true);
                     Toast.makeText(getApplicationContext(),
                             "Username is in use",
                             Toast.LENGTH_LONG).show();
