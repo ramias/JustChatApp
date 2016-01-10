@@ -38,6 +38,7 @@ public class UserBean implements Serializable {
 	public String login() {
 		HashMap<String, String> user = new HashMap<String, String>();
 		user.put("username", gmail);
+		user.put("regid", gmail);
 		user.put("phonenumber", fullname);
 		
 		Gson gson = new Gson();
