@@ -33,10 +33,9 @@
 		  var xhttp = new XMLHttpRequest();
 		  document.getElementById('loginForm:fullname').value = profile.getName();
 		  document.getElementById('loginForm:gmail').value = profile.getEmail();
-		  alert('#{userBean.gmail}' + ' ' + '#{userBean.fullname}')
+		  document.getElementById('loginForm:hdnBtn').click();
 		};
 		function afterSignIn(){
-		  alert('#{userBean.gmail}' + ' ' + '#{userBean.fullname}')
 		  window.location.href = "index.jsf";
 		}
 		
@@ -84,11 +83,13 @@
 				<div class="col-lg-8 col-lg-offset-2">
 					<br />
 					<div class="row control-group">
-						<h:form id="loginForm">
-								<h:inputHidden id="fullname" value="#{userBean.fullname}" />
-								<h:inputHidden id="gmail" value="#{userBean.gmail}" />
+						<h:form id="googleForm">
 							<div class="g-signin2" align="center" data-onsuccess="onSignIn" />
-
+						</h:form>
+						<h:form id="loginForm">
+							<h:inputHidden id="fullname" value="#{userBean.fullname}" />
+							<h:inputHidden id="gmail" value="#{userBean.gmail}" />
+							<p:commandButton id="hdnBtn" update="loginForm" oncomplete="afterSignIn()" style="display:none" />
 						</h:form>
 					</div>
 				</div>
