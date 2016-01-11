@@ -27,8 +27,10 @@
 	<script src="UI/js/bootstrap.min.js"></script>
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js">
+		
 	</script>
-	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async="async" defer="defer"></script>
+	<script src="https://apis.google.com/js/platform.js?onload=onLoad"
+		async="async" defer="defer"></script>
 	<h:outputScript>
         function addFriendFunction() {
             var friend = prompt("Please enter your friends mail", "");
@@ -93,39 +95,49 @@
 					<br />
 				</div>
 			</div>
-            
+
 			<div class="row">
 				<div class="col-lg-3" style="text-align: center">
-                
-                	<h:form id="friendForm">
-						<p:commandButton value="Add a Friend" onclick="addFriendFunction()" styleClass="form-control btn btn-success" actionListener="#{friendBean.addFriend}" />
-                        
-                        <h:inputHidden id="friendGmail" value="#{friendBean.friendUser}" />
+
+					<h:form id="friendForm">
+						<p:commandButton value="Add a Friend"
+							onclick="addFriendFunction()"
+							styleClass="form-control btn btn-success"
+							actionListener="#{friendBean.addFriend}" />
+
+						<h:inputHidden id="friendGmail" value="#{friendBean.friendUser}" />
 					</h:form>
-                    
+
 					<h:form>
 						<p:dataList value="#{friendBean.friendList}" var="friend"
 							type="definition">
-						<f:facet name="header">
+							<f:facet name="header">
 				            Friends
 				        </f:facet>
 							<b>#{friend}</b>
 
 							<br />
-
-							<p:button outcome="chat" value="Chat" styleClass="btn-default">
+							<p:commandButton value="show" onclick="PF('chatPanel').toggle()"
+								styleClass="btn-default">
 								<f:param name="user" value="#{friend}" />
-							</p:button>
+							</p:commandButton>
 						</p:dataList>
 
 					</h:form>
 				</div>
-                
-                <div class="col-lg-7">
-                	CHAT HERE!!
-                </div>
-                
-                <div class="col-lg-2">
+
+				<div class="col-lg-7">
+					<h:form id="chatForm">
+						<p:panel id="chatPanel" widgetVar="chatPanel" closable="true"
+							toggleable="true">
+							CLOCK:
+							//PARAMETER HERE
+							<p:clock />
+						</p:panel>
+					</h:form>
+				</div>
+
+				<div class="col-lg-2">
 					<p>
 						<b>Full Name: </b>
 						<h:outputText value="#{userBean.fullname}" />
@@ -135,7 +147,7 @@
 						<h:outputText value="#{userBean.gmail}" />
 					</p>
 				</div>
-                
+
 			</div>
 		</div>
 	</section>
