@@ -53,6 +53,33 @@
 	      });
 	    }
 	</h:outputScript>
+	<script type="text/javascript">
+		$(document).ready(scrollToBottom);
+		function scrollToBottom() {
+			$("#chatForm\\:chatBox_content").addClass(
+					"ui-widget-content-scrollable");
+			(jQuery("#chatForm\\:chatBox_content"))
+					.scrollTop(((jQuery("#chatForm\\:chatBox_content"))[0].scrollHeight + 1));
+		}
+	</script>
+	<script type="text/javascript">
+		var scrollPosition;
+		function saveScrollPosition() {
+			scrollPosition = (jQuery("#chatForm\\:chatBox_content"))
+					.scrollTop();
+		}
+
+		function setScrollPosition() {
+			$("#chatForm\\:chatBox_content").addClass(
+					"ui-widget-content-scrollable");
+			(jQuery("#chatForm\\:chatBox_content")).scrollTop(scrollPosition);
+		}
+	</script>
+	<script type="text/javascript">
+		function clearInput() {
+			$('#contactForm\\:message').val('');
+		}
+	</script>
 </h:head>
 
 <h:body id="page-top" class="index">
@@ -117,23 +144,62 @@
 							<b>#{friend}</b>
 
 							<br />
-							<p:commandButton value="show" onclick="PF('chatPanel').toggle()"
-								styleClass="btn-default">
-								<f:param name="user" value="#{friend}" />
-							</p:commandButton>
-						</p:dataList>
 
+							<p:commandButton value="Chat" id="buttonChat"
+								update=":chatForm" action="#{chatBean.setParamUser}"
+								styleClass="btn-default">
+								<f:param name="paramUser" value="#{friend}" />
+							</p:commandButton>
+
+						</p:dataList>
 					</h:form>
+
 				</div>
 
 				<div class="col-lg-7">
 					<h:form id="chatForm">
-						<p:panel id="chatPanel" widgetVar="chatPanel" closable="true"
-							toggleable="true">
-							CLOCK:
-							//PARAMETER HERE
-							<p:clock />
-						</p:panel>
+						<p:poll interval="4" listener="#{chatBean.getChatMessages}"
+							update="chatForm" onstart="saveScrollPosition()"
+							oncomplete="setScrollPosition()" />
+
+						<p:dataList id="chatBox" value="#{chatBean.chatMessages}"
+							var="msg" type="definition">
+							<f:facet name="header">
+				            Chat
+				        	</f:facet>
+							<div style="padding-left: 20px">
+								<h:outputText rendered="#{userBean.gmail eq msg.chater}"
+									style="color:blue" value="#{msg.chater} : " />
+								<h:outputText rendered="#{chatBean.paramUser eq msg.chater}"
+									style="color:red" value="#{msg.chater} : " />
+								<br /> <i>#{msg.message}</i>
+								<p />
+							</div>
+						</p:dataList>
+					</h:form>
+
+					<h:form name="sentMessage" id="contactForm">
+						<div class="row control-group">
+							Message
+							<div
+								class="form-group col-xs-12 floating-label-form-group controls">
+								<h:inputTextarea value="#{chatBean.message}" cols="5" rows="2"
+									class="form-control" required="true" id="message">
+								</h:inputTextarea>
+								<p class="help-block text-danger"></p>
+							</div>
+						</div>
+
+						<br />
+
+						<div class="row">
+							<div class="form-group col-xs-12">
+								<p:commandButton value="Send" id="sendMsg" update=":chatForm"
+									type="submit" oncomplete="scrollToBottom(),clearInput()"
+									actionListener="#{chatBean.sendMessage}"
+									styleClass="ui-priority-primary" />
+							</div>
+						</div>
 					</h:form>
 				</div>
 

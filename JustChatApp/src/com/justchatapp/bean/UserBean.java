@@ -14,8 +14,9 @@ import com.google.gson.Gson;
 @SessionScoped
 @ManagedBean(name = "userBean")
 public class UserBean implements Serializable {
-	private String path = "http://130.237.84.211:8080/justchat/rest/";
 	private static final long serialVersionUID = 1L;
+	
+	private String path = "http://130.237.84.211:8080/justchat/rest/";
 	private String fullname;
 	private String gmail;
 
@@ -48,5 +49,4 @@ public class UserBean implements Serializable {
 		resource.contentType("application/json").accept("text/plain").post(String.class, json);
 		return "";
 	}
-
 }
