@@ -28,9 +28,14 @@ public class ChatBean implements Serializable {
 	private String message;
 	@ManagedProperty(value = "#{userBean}")
 	private UserBean userBean;
+	@ManagedProperty(value = "#{friendBean}")
+	private FriendBean friendBean;
 
 	public void setUserBean(UserBean userBean) {
 		this.userBean = userBean;
+	}
+	public void setFriendBean(FriendBean friendBean) {
+		this.friendBean = friendBean;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -54,7 +59,7 @@ public class ChatBean implements Serializable {
 	}
 
 	public void setParamUser() {
-		this.paramUser = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("paramUser");
+		this.paramUser = friendBean.getHashFriends().get((String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("paramUser"));
 	}
 	
 	public String getMessage() {

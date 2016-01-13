@@ -130,12 +130,12 @@
 						<p:commandButton value="Add a Friend"
 							onclick="addFriendFunction()"
 							styleClass="form-control btn btn-success"
-							actionListener="#{friendBean.addFriend}" />
+							actionListener="#{friendBean.addFriend}" update=":friendListForm" />
 
 						<h:inputHidden id="friendGmail" value="#{friendBean.friendUser}" />
 					</h:form>
 
-					<h:form>
+					<h:form id="friendListForm">
 						<p:dataList value="#{friendBean.friendList}" var="friend"
 							type="definition">
 							<f:facet name="header">
@@ -145,7 +145,7 @@
 
 							<br />
 
-							<p:commandButton value="Chat" id="buttonChat"
+							<p:commandButton value="Chat" id="buttonChat" oncomplete=""
 								update=":chatForm" action="#{chatBean.setParamUser}"
 								styleClass="btn-default">
 								<f:param name="paramUser" value="#{friend}" />
@@ -165,14 +165,14 @@
 						<p:dataList id="chatBox" value="#{chatBean.chatMessages}"
 							var="msg" type="definition">
 							<f:facet name="header">
-				            Chat
+				            Chat with #{chatBean.paramUser}
 				        	</f:facet>
 							<div style="padding-left: 20px">
-								<h:outputText rendered="#{userBean.gmail eq msg.chater}"
-									style="color:blue" value="#{msg.chater} : " />
-								<h:outputText rendered="#{chatBean.paramUser eq msg.chater}"
-									style="color:red" value="#{msg.chater} : " />
-								<br /> <i>#{msg.message}</i>
+								<h:outputText rendered="#{userBean.gmail eq msg.sender}"
+									style="color:blue" value="#{msg.sender} : " />
+								<h:outputText rendered="#{chatBean.paramUser eq msg.sender}"
+									style="color:red" value="#{msg.sender} : " />
+								<br /> <i>#{msg.body}</i>
 								<p />
 							</div>
 						</p:dataList>
@@ -195,7 +195,7 @@
 						<div class="row">
 							<div class="form-group col-xs-12">
 								<p:commandButton value="Send" id="sendMsg" update=":chatForm"
-									type="submit" oncomplete="scrollToBottom(),clearInput()"
+									type="submit" onstart="scrollToBottom(),clearInput()"
 									actionListener="#{chatBean.sendMessage}"
 									styleClass="ui-priority-primary" />
 							</div>

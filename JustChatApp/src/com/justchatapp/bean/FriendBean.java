@@ -18,16 +18,24 @@ import com.google.gson.Gson;
 @ManagedBean(name = "friendBean")
 public class FriendBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String path = "http://130.237.84.211:8080/justchat/rest/";
 	private String friendUser = "";
-	private ArrayList<String> friendList;
-	
+	private HashMap<String, String> friendList = new HashMap<>();
+
+	public void setFriendList(HashMap<String, String> friendList) {
+		this.friendList = friendList;
+	}
+
 	@ManagedProperty(value = "#{userBean}")
 	private UserBean userBean;
 
 	public void setUserBean(UserBean userBean) {
 		this.userBean = userBean;
+	}
+
+	public HashMap<String, String> getHashFriends() {
+		return friendList;
 	}
 
 	public String getFriendUser() {
@@ -49,14 +57,22 @@ public class FriendBean implements Serializable {
 		resource.contentType("application/json").accept("text/plain").post(String.class, json);
 		return "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public ArrayList<String> getFriendList() {
 		RestClient client = new RestClient();
 		Resource res = client.resource(path + "friend/friendlist?user=" + userBean.getGmail());
 		String jsonFriends = res.accept("application/json").get(String.class);
 		Gson gson = new Gson();
-		friendList = gson.fromJson(jsonFriends, ArrayList.class);
-		return friendList;
+		ArrayList<String> friendMail = gson.fromJson(jsonFriends, ArrayList.class);
+		if (friendMail != null) {
+			ArrayList<String> friendNames = new ArrayList<String>();
+			for (String s : friendMail) {
+				friendNames.add((s.split("@"))[0]);
+				friendList.put((s.split("@"))[0], s);
+			}
+			return friendNames;
+		}
+		return new ArrayList<String>();
 	}
 }
